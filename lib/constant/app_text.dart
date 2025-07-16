@@ -1,0 +1,12 @@
+String termHeadFirst = "1. Acceptance of Terms ";
+String termValueFirst = "By downloading, installing, or using the [Your Hunting App Name] (the “App”), you agree to be bound by these Terms and Conditions and our Privacy Policy. If you do not agree, do not use the App.By downloading, installing, or using the [Your Hunting App Name] (, you agree to be bound by these Terms and Conditions and our Privacy Policy. If you do not agree, do not use the App.";
+String termHeadSecond = "2. Eligibility";
+String termValueSecond = "You must be at least 18 years old (or the age of majority in your jurisdiction) to use the App. By using the App, you confirm that you meet this requirement.By downloading, installing, or using the [Your Hunting App Name] (the “App”), you agree to be bound by these Terms and Conditions and our Privacy Policy. If you do not agree, do not use the App.By downloading, installing, or using the [Your Hunting App Name] (the “App”), you agree to be bound by these Terms and Conditions and our Privacy Policy. If you do not agree, do not use the App.";
+String termHeadThird = "3. Use of the App";
+String termValueThird = "You agree to use the App only for lawful purposes related to hunting, wildlife tracking, outdoor navigation, and other supported features. You must comply with all local, state, and federal hunting laws and regulations.";
+String termHeadFourth = "4. Licenses and Permits";
+String termValueFourth = "You are solely responsible for obtaining all necessary hunting licenses, tags, permits, and approvals from appropriate wildlife authorities.By downloading, installing, or using the [Your Hunting App Name] (the “App”), you agree to be bound by these Terms and Conditions and our Privacy Policy. If you do not agree, do not use the App.";
+String termHeadFifth = "5. Prohibited Conduct";
+String termValueFifth = "You may not:Use the App to engage in illegal or unethical hunting practices.Upload false or misleading information (e.g., about game locations).Attempt to hack, revere-engineer, or interfere with the App.Share another user’s personal information without consent.";
+String termHeadSixth = "6. GPS and Mapping Accuracy";
+String termValueSixth = "The App may use GPS and mapping data for tracking and navigation. We do not guarantee the accuracy of such data, and you assume all risk for its use.By downloading, installing, ";
