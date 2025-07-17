@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hunting_app/common/custom_padding.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
+import 'package:hunting_app/presentation/notification/notification.dart';
+import 'package:hunting_app/presentation/profile/profile.dart';
 
 import '../../constant/app_const.dart';
 import '../hunts/hunts_details.dart';
@@ -31,42 +33,50 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     children: [
                       // Notification icon with badge
-                      Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/icon/notification.svg", // SVG asset path
-                            height: 30,
-                            width: 30,
-                          ),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: Container(
-                              height: 10,
-                              width: 10,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.red, // Red color for the badge
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=> NotificationScreen()));
+                        },
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icon/notification.svg", // SVG asset path
+                              height: 30,
+                              width: 30,
+                            ),
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.red, // Red color for the badge
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       SizedBox(width: 10),
                       // Profile icon with a circle background
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: const Color.fromARGB(255, 129, 129, 129),
-                        ),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SvgPicture.asset(
-                              "assets/icon/profile.svg", // SVG asset path
-                              height: 20, // You can adjust the size as needed
-                              width: 20,
+                      InkWell(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=> ProfilePage())),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: const Color.fromARGB(255, 129, 129, 129),
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(
+                                "assets/icon/profile.svg", // SVG asset path
+                                height: 20, // You can adjust the size as needed
+                                width: 20,
+                              ),
                             ),
                           ),
                         ),
@@ -80,7 +90,12 @@ class HomeScreen extends StatelessWidget {
             // Vertical Padding after Divider
             vPad20,
             // Search Box
-            Padding(
+           
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                     Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Container(
                 decoration: BoxDecoration(
@@ -91,7 +106,13 @@ class HomeScreen extends StatelessWidget {
                   border: Border.all(color: Color(0xff97BECA)),
                 ),
                 child: TextField(
+                  cursorColor: Colors.white,
+                  style: customTextStyleAuth(
+                    color: Colors.white, fontSize: 14,
+                    fontWeight: FontWeight.w400
+                  ),
                   decoration: InputDecoration(
+                    
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.asset(
@@ -115,10 +136,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             vPad20,
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
                     Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Row(
@@ -229,12 +246,17 @@ class HomeScreen extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      Text(
-                        "View all",
-                        style: customTextStyleAuth(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xff97BECA),
+                      InkWell(
+                        onTap: (){
+                          
+                        },
+                        child: Text(
+                          "View all",
+                          style: customTextStyleAuth(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff97BECA),
+                          ),
                         ),
                       ),
                     ],
@@ -272,7 +294,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             )
-
+        
           ],
         ),
       ),

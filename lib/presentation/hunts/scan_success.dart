@@ -94,7 +94,7 @@ class ScanSuccess extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: CustomButton(buttonText: "View Next Clue", icon:Icons.arrow_forward, iconAtStart: false,
             
-            // onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=> LandingPage()),  (route) => false,),
+            onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=> LandingPage()),  (route) => false,),
             
             ),
           ),

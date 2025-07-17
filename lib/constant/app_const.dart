@@ -10,7 +10,7 @@ final List<CustomCardData> data = [
     location: "Amazon",
     name: "Carlos Gonzalez",
     rating: "4.7",
-    status: "Completed",
+    status: "Active",
     image: "assets/clues_pic.png",
     price: "\$120",
     timerText: "Completed",
@@ -19,7 +19,7 @@ final List<CustomCardData> data = [
     clues: [
       Clue(title: "Trail Start", status: ClueStatus.completed),
       Clue(title: "Monkey Puzzle", status: ClueStatus.completed),
-      Clue(title: "Hidden Falls", status: ClueStatus.completed),
+      Clue(title: "Hidden Falls", status: ClueStatus.inProgress),
     ],
   ),
   CustomCardData(

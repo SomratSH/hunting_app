@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hunting_app/common/custom_button_with_svg.dart';
 import 'package:hunting_app/common/custom_padding.dart';
+import 'package:hunting_app/common/enum.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
+import 'package:hunting_app/constant/app_const.dart';
+import 'package:hunting_app/presentation/hunts/clam_price.dart';
 import 'package:hunting_app/presentation/hunts/scan_success.dart';
 
 import '../../common/common.dart';
 import 'qr_scanner.dart';
 
 class Scan extends StatelessWidget {
-  const Scan({super.key});
+  int ?index;
+  Scan({super.key, this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +98,10 @@ class Scan extends StatelessWidget {
                         svgIcon: "assets/icon/scan.svg",
                         color: blue3,
                         onPressed: () async {
+                        
                           // Navigator.push(context, MaterialPageRoute(builder: (_)=> ScanSuccess()));
                         // Navigator.push(context, createSlideRoute(ScanSuccess()));
-                        Navigator.push(
+                     data[index!].clues.last.status == ClueStatus.inProgress ?  Navigator.push(context, MaterialPageRoute(builder: (_)=> ClamPrice())):   Navigator.push(
   context,
   PageRouteBuilder(
     transitionDuration: Duration(milliseconds: 500),

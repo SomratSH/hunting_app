@@ -19,15 +19,15 @@ class MapScreen extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(Icons.arrow_back, color: Colors.white),
-                    ),
+                    // IconButton(
+                    //   onPressed: () {
+                    //     Navigator.pop(context);
+                    //   },
+                    //   icon: Icon(Icons.arrow_back, color: Colors.white),
+                    // ),
                     Expanded(
                       child: Text(
-                        "All Clues",
+                        "Tracking Location",
                         style: customTextStyleAuth(
                           fontSize: 17,
                           fontWeight: FontWeight.w400,

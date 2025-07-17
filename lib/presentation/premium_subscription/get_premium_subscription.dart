@@ -16,15 +16,19 @@ class GetPremiumSubscription extends StatelessWidget {
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
-        child: Column(
-        children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(onPressed: (){
-                Navigator.pop(context);
-              }, icon: Icon(Icons.cancel_outlined, color: Colors.white,)),
-            ),
-            vPad10,
+        child: SingleChildScrollView(
+          child: Column(
+          children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(onPressed: (){
+                  Navigator.pop(context);
+                }, icon: Icon(Icons.cancel_outlined, color: Colors.white,)),
+              ),
+              vPad10,
+
+            Padding(padding: EdgeInsets.all(8),
+            child:
             Column(
               children: [
                 Text("You have selected a pro feature", style: customTextStyleAuth(
@@ -33,145 +37,145 @@ class GetPremiumSubscription extends StatelessWidget {
                 ),),
                 vPad15,
                 Text("Unlock all the clues and Access to big\nmonthly prize hunts.", style: customTextStyleAuth(
-                  color: text2,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400
+                    color: text2,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400
                 ),
-                textAlign: TextAlign.center,
+                  textAlign: TextAlign.center,
                 ),
 
                 vPad15,
                 ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(10),
-                  child: Image.asset("assets/active_hunt_image.jpg")),
+                    borderRadius: BorderRadiusGeometry.circular(10),
+                    child: Image.asset("assets/active_hunt_image.jpg")),
                 vPad10,
                 Align(
-                   alignment: Alignment.topLeft,
+                  alignment: Alignment.topLeft,
                   child: Row(
                     children: [
                       Text("CHASE THE CASH", style: GoogleFonts.paytoneOne(
-                        fontSize: 17,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400
+                          fontSize: 17,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400
                       ),),
                       hPad10,
                       DecoratedBox(decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(3)
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3)
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric( horizontal: 6.0),
-                        child: Text("Pro", style: GoogleFonts.rasa(fontWeight: FontWeight.w700,fontSize: 13),),
-                      ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric( horizontal: 6.0),
+                          child: Text("Pro", style: GoogleFonts.rasa(fontWeight: FontWeight.w700,fontSize: 13),),
+                        ),
                       )
                     ],
                   ),
                 ),
                 vPad15,
 
-                //basic portion 
+                //basic portion
                 DecoratedBox(decoration: BoxDecoration(
                   color: blue1,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: Text("Basic", style: customTextStyleAuth(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4),
+                              child: Text("Basic", style: customTextStyleAuth(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600
+                              ),
+
+                              ),
                             ),
-                            
+                            DecoratedBox(decoration: BoxDecoration(
+                              color: green,
+                              borderRadius: BorderRadius.circular(  20),
+
                             ),
-                          ),
-                          DecoratedBox(decoration: BoxDecoration(
-                            color: green,
-                            borderRadius: BorderRadius.circular(  20),
-                  
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("R29.99/month", style: customTextStyleAuth(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500
-                            ),),
-                          ),
-                          )
-                        ],
-                      ),
-                      Text(" Access to all standard hunts", style: customTextStyleAuth(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400
-                      ),)
-                    ],
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("R29.99/month", style: customTextStyleAuth(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500
+                                ),),
+                              ),
+                            )
+                          ],
+                        ),
+                        Text(" Access to all standard hunts", style: customTextStyleAuth(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400
+                        ),)
+                      ],
+                    ),
                   ),
-                ),
                 ),
                 vPad15,
                 //premium
-                  DecoratedBox(decoration: BoxDecoration(
-                  color: card1,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white)
+                DecoratedBox(decoration: BoxDecoration(
+                    color: card1,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white)
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: Text("Premium", style: customTextStyleAuth(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4),
+                              child: Text("Premium", style: customTextStyleAuth(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600
+                              ),
+
+                              ),
                             ),
-                            
+                            DecoratedBox(decoration: BoxDecoration(
+                              color: textLightColor ,
+                              borderRadius: BorderRadius.circular(  20),
+
                             ),
-                          ),
-                          DecoratedBox(decoration: BoxDecoration(
-                            color: textLightColor ,
-                            borderRadius: BorderRadius.circular(  20),
-                  
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("R99.99/month", style: customTextStyleAuth(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black
-                            ),),
-                          ),
-                          )
-                        ],
-                      ),
-                      vPad15,
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6.0),
-                        child: Text("Early access to clues, Push alerts when a new hunt launches, Access to big monthly prize hunts.", style: customTextStyleAuth(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400
-                        ),),
-                      )
-                    ],
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("R99.99/month", style: customTextStyleAuth(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black
+                                ),),
+                              ),
+                            )
+                          ],
+                        ),
+                        vPad15,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 6.0),
+                          child: Text("Early access to clues, Push alerts when a new hunt launches, Access to big monthly prize hunts.", style: customTextStyleAuth(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400
+                          ),),
+                        )
+                      ],
+                    ),
                   ),
-                ),
                 ),
                 vPad50,
 
-            
+
                 CustomButton(buttonText: "Start 1 free hunt", color: secondaryColor, textColor: primaryColor,),
                 vPad20,
-                  Text.rich(
+                Text.rich(
                   TextSpan(
                     children: [
                       TextSpan(
@@ -205,7 +209,7 @@ class GetPremiumSubscription extends StatelessWidget {
                       ),
                       TextSpan(
                         text: "Privacy policy.",
-                           recognizer: TapGestureRecognizer()..onTap = (){
+                        recognizer: TapGestureRecognizer()..onTap = (){
                           Navigator.push(context, MaterialPageRoute(builder: (_)=> PrivacyPolicy()));
                         },
                         style: customTextStyleAuth(
@@ -225,7 +229,7 @@ class GetPremiumSubscription extends StatelessWidget {
                         ),
                       ),
 
-                      
+
                     ],
                   ),
 
@@ -234,8 +238,11 @@ class GetPremiumSubscription extends StatelessWidget {
 
               ],
             )
-        ],
-      )),
+              ,
+            )
+          ],
+                ),
+        )),
     );
   }
 }

@@ -102,332 +102,346 @@ class _CluesScreenState extends State<CluesScreen> {
               ),
 
               
-
-              // Location Challenge Header
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.location_on, color: Colors.white, size: 20),
-                    SizedBox(width: 8),
-                    Text(
-                      'Location Challenge',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              Container(
-                height: 200,
-                width: double.infinity,
-
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: AssetImage("assets/clues_pic.png"),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-
-              Container(
-                width: double.infinity,
-
-                decoration: BoxDecoration(
-                  color: card1,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "“Where smoke rises and meat is king,\n\nYour next step lies near Braaifesta's swing.\n\nFollow the aroma, trust your nose,\n\nWhere community gathers, the secret shows.\n\nLook for the place where flames dance high,\n\nAnd laughter echoes to the sky.”",
-                    style: customTextStyleAuth(
-                      color: textLightColor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              vPad15,
-              // Target Location
-            Container(
-  width: double.infinity,
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(12),
-    color: card1,
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black.withOpacity(0.1),
-        blurRadius: 8,
-        offset: Offset(0, 4),
-      ),
-    ],
-  ),
+Padding(
+  padding: const EdgeInsets.all(8.0),
   child: Column(
-    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      const SizedBox(height: 24),
-      
-      // Title
-      Text(
-        'Target Location',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 0.5,
-        ),
-      ),
-      
-      const SizedBox(height: 20),
-      
-      // Map Container
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Container(
-          height: 200,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 8,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Stack(
-              children: [
-                // Map Background
-                Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/map_image.png"),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                
-                // Location Icon Overlay
-                Positioned.fill(
-                  child: Center(
-                    child: SvgPicture.asset(
-                      "assets/icon/tdesign_location.svg",
-                      width: 24,
-                      height: 24,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      
-      const SizedBox(height: 16),
-      
-      // Location Details
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+
+      // Location Challenge Header
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.location_on,
-              color: Colors.red,
-              size: 18,
-            ),
-            const SizedBox(width: 8),
-            Flexible(
-              child: Text(
-                'Johannesburg Expo Centre, Nasrec',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-                textAlign: TextAlign.center,
+            Icon(Icons.location_on, color: Colors.white, size: 20),
+            SizedBox(width: 8),
+            Text(
+              'Location Challenge',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],
         ),
       ),
-      
-      const SizedBox(height: 20),
-      
-      // Action Buttons
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Row(
-          children: [
-            Expanded(
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  isHint = !isHint;
-                  setState(() {});
-                },
-                icon: Icon(
-                  Icons.lightbulb_outline,
-                  color: Colors.white,
-                  size: 18,
-                ),
-                label: Text(
-                  'Need a Hint?',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: buttonColor,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  elevation: 2,
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  // Add your map opening logic here
-                },
-                icon: Icon(
-                  Icons.map,
-                  color: Colors.white,
-                  size: 18,
-                ),
-                label: Text(
-                  'Open Map',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: buttonColor,
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  elevation: 2,
-                ),
-              ),
-            ),
-          ],
+
+      Container(
+        height: 200,
+        width: double.infinity,
+
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+            image: AssetImage("assets/clues_pic.png"),
+            fit: BoxFit.fill,
+          ),
         ),
       ),
-      
-      const SizedBox(height: 20),
-      
-      // Hint Section
-      if (isHint)
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
+
+      Container(
+        width: double.infinity,
+
+        decoration: BoxDecoration(
+          color: card1,
+          borderRadius: BorderRadius.circular(10),
+        ),
+
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "“Where smoke rises and meat is king,\n\nYour next step lies near Braaifesta's swing.\n\nFollow the aroma, trust your nose,\n\nWhere community gathers, the secret shows.\n\nLook for the place where flames dance high,\n\nAnd laughter echoes to the sky.”",
+            style: customTextStyleAuth(
               color: textLightColor,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: blue2.withOpacity(0.3),
-                width: 1,
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+      vPad15,
+      // Target Location
+      Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: card1,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 24),
+
+            // Title
+            Text(
+              'Target Location',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+
+            const SizedBox(height: 20),
+
+            // Map Container
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Container(
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Stack(
                     children: [
-                      SvgPicture.asset(
-                        "assets/icon/lightbulb.svg",
-                        width: 20,
-                        height: 20,
+                      // Map Background
+                      Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/map_image.png"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "Hint",
-                        style: customTextStyleAuth(
-                          color: blue2,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+
+                      // Location Icon Overlay
+                      Positioned.fill(
+                        child: Center(
+                          child: SvgPicture.asset(
+                            "assets/icon/tdesign_location.svg",
+                            width: 24,
+                            height: 24,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 28.0),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Location Details
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.location_on,
+                    color: Colors.red,
+                    size: 18,
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
                     child: Text(
-                      "Look for the annual food festival where\nSouth African braai culture comes alive.",
-                      style: customTextStyleAuth(
-                        color: blue2,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                       
+                      'Johannesburg Expo Centre, Nasrec',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Action Buttons
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        isHint = !isHint;
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.lightbulb_outline,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                      label: Text(
+                        'Need a Hint?',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: buttonColor,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 2,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        // Add your map opening logic here
+                      },
+                      icon: Icon(
+                        Icons.map,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                      label: Text(
+                        'Open Map',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: buttonColor,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 2,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        ),
-      
-      const SizedBox(height: 20),
-    ],
-  ),
-),
-              vPad15,
 
-              // Location info
+            const SizedBox(height: 20),
 
-              // QR Code scan button
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: buttonColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                margin: EdgeInsets.all(16),
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=> Scan()));
-                  },
-                  icon: Icon(Icons.qr_code_scanner, color: Colors.white),
-                  label: Text(
-                    'Scan QR Code',
-                    style: TextStyle(color: Colors.white),
+            // Hint Section
+            if (isHint)
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: textLightColor,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: blue2.withOpacity(0.3),
+                      width: 1,
+                    ),
                   ),
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: Colors.white),
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icon/lightbulb.svg",
+                              width: 20,
+                              height: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              "Hint",
+                              style: customTextStyleAuth(
+                                color: blue2,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 28.0),
+                          child: Text(
+                            "Look for the annual food festival where\nSouth African braai culture comes alive.",
+                            style: customTextStyleAuth(
+                              color: blue2,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
+
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+      vPad15,
+
+      // Location info
+
+      // QR Code scan button
+      Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: buttonColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        margin: EdgeInsets.all(16),
+        child: OutlinedButton.icon(
+          onPressed: () {
+            print(widget.index);
+
+            Navigator.push(context, MaterialPageRoute(builder: (_)=> Scan(
+                index:widget.index!
+            )));
+          },
+          icon: Icon(Icons.qr_code_scanner, color: Colors.white),
+          label: Text(
+            'Scan QR Code',
+            style: TextStyle(color: Colors.white),
+          ),
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: Colors.white),
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
+      ),
+
+    ],
+  ),
+)
+
+
             ],
           ),
         ),

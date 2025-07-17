@@ -16,7 +16,9 @@ class ResetPassword extends StatelessWidget {
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
-        child: Column(
+        child: Padding(padding: EdgeInsets.all(8),
+        child:
+        Column(
           children: [
             Row(
               children: [
@@ -31,7 +33,7 @@ class ResetPassword extends StatelessWidget {
                   child: Text(
                     "Forgot Password",
                     textAlign:
-                        TextAlign.center, // Center the text within the row
+                    TextAlign.center, // Center the text within the row
                     style: customTextStyleAuth(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
@@ -141,6 +143,10 @@ class ResetPassword extends StatelessWidget {
             ),
           ],
         ),
+
+        )
+
+
       ),
     );
   }
