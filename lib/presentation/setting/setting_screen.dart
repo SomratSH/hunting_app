@@ -3,7 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hunting_app/common/custom_padding.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
-import 'package:hunting_app/presentation/authentication/login_screen.dart';
+
+import 'package:hunting_app/presentation/authentication/screen/login_screen.dart';
+import 'package:hunting_app/presentation/profile/edit_profile.dart';
+import 'package:hunting_app/presentation/profile/profile_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/custom_delete_dialog.dart';
 import '../premium_subscription/get_premium_subscription.dart';
@@ -13,6 +17,7 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileProvider = context.watch<ProfileProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: Column(
@@ -40,35 +45,100 @@ class SettingScreen extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: text2,
-                            child: Icon(Icons.person, color: Colors.black),
-                          ),
-                          hPad10,
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "John Doe",
-                                style: customTextStyleAuth(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.blue,
+                      child: profileProvider.isLoading
+                          ? Center(child: CircularProgressIndicator())
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor:
+                                          text2, // You can change this to any color you want for the background.
+                                      child:
+                                          profileProvider
+                                                  .profileModel
+                                                  .data!
+                                                  .image !=
+                                              null
+                                          ? ClipOval(
+                                              // Ensures that the image is cropped to a circular shape
+                                              child: Image.network(
+                                                profileProvider
+                                                    .profileModel
+                                                    .data!
+                                                    .image
+                                                    .toString(),
+                                                fit: BoxFit
+                                                    .cover, // This makes sure the image fills the CircleAvatar
+                                                width: double
+                                                    .infinity, // Ensures the image takes the full width of the CircleAvatar
+                                                height: double
+                                                    .infinity, // Ensures the image takes the full height of the CircleAvatar
+                                              ),
+                                            )
+                                          : ClipOval(
+                                              child: Image.asset(
+                                                "assets/profile_place_holder.jpg",
+                                                fit: BoxFit
+                                                    .cover, // Same as above, fill the CircleAvatar
+                                                width: double.infinity,
+                                                height: double.infinity,
+                                              ),
+                                            ),
+                                    ),
+
+                                    hPad10,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          profileProvider
+                                                  .profileModel
+                                                  .data!
+                                                  .name ??
+                                              "N/A",
+                                          style: customTextStyleAuth(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        Text(
+                                          profileProvider
+                                                  .profileModel
+                                                  .data!
+                                                  .email ??
+                                              "N/A",
+                                          style: customTextStyleAuth(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                "user99@gmail.com",
-                                style: customTextStyleAuth(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
+                                InkWell(
+                                  onTap: () {
+                                    // Handle edit action
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            EditProfileScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: Colors.blue,
+                                    size: 18,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                              ],
+                            ),
                     ),
                   ),
                   vPad50,

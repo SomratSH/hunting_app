@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hunting_app/common/custom_padding.dart';
+import 'package:hunting_app/common/custom_snackBar.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hunting_app/presentation/authentication/create_account_screen.dart';
+import 'package:hunting_app/presentation/authentication/provider/authentication_provider.dart';
+import 'package:hunting_app/presentation/authentication/screen/create_account_screen.dart';
 import 'package:hunting_app/presentation/home_screen/home_screen.dart';
 import 'package:hunting_app/presentation/landing_page/landing_page.dart';
+import 'package:provider/provider.dart';
 
-import '../../common/custom_button.dart';
-import '../../common/custom_text_field.dart';
+import '../../../common/custom_button.dart';
+import '../../../common/custom_text_field.dart';
 import 'reset_password.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -16,8 +19,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
+   final provider =context.watch<AuthenticationProvider>();
     return 
     
     Scaffold(
@@ -59,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     vPad15,
                     CustomTextField(
-                      controller: _emailController,
+                      controller: provider.emailController,
                       hintText: "Johndoe@example.com",
                       borderRadius: 10,
                       prefixIconSvgPath: 'assets/icon/message.svg',
@@ -76,7 +78,7 @@ class LoginScreen extends StatelessWidget {
                     vPad15,
                     CustomTextField(
                       isPassword: true,
-                      controller: _passwordController,
+                      controller: provider.passwordController,
                       hintText: "Password",
                       borderRadius: 10,
                       prefixIconSvgPath: 'assets/icon/password.svg',
@@ -87,7 +89,8 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         InkWell(
-                          onTap: (){
+                          onTap: ()async{
+                          
                             Navigator.push(context, MaterialPageRoute(builder: (_)=> ResetPassword()));
                           },
                           child: Text(
@@ -102,8 +105,20 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
                     vPad10,
-                    CustomButton(buttonText: "Login", onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => LandingPage()));
+                   provider.isLoading ? Center(child: CircularProgressIndicator()) : CustomButton(buttonText: "Login", onPressed: () async {
+
+                        final status = await provider.login();
+                            if(status["error"] != null){
+                              CustomSnackbar.show(context, message: "Email or Password is incorrect", backgroundColor: Colors.red);
+                             
+                            }else if(status["message"] != null){
+                              CustomSnackbar.show(context, message: status["message"]);
+                               Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => LandingPage()),
+                              );
+                            }
+                      // Navigator.push(context, MaterialPageRoute(builder: (_) => LandingPage()));
                     }),
                     vPad10,
                     Center(

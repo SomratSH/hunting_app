@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hunting_app/presentation/splash_screen/splash_screen.dart';
+import 'package:hunting_app/provider_list.dart';
+import 'package:provider/provider.dart';
 
 
 void main() {
@@ -12,10 +14,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(providers: ProviderList.providers,
+    child:  MaterialApp(
       debugShowCheckedModeBanner: false,
       home:  SplashScreen()
+    ),
     );
+
+
   }
 }
 

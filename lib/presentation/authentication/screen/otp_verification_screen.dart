@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:hunting_app/common/custom_padding.dart';
+import 'package:hunting_app/common/custom_snackBar.dart';
 import 'package:hunting_app/constant/app_colors.dart';
+import 'package:hunting_app/presentation/authentication/provider/authentication_provider.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 
-import '../../common/custom_button.dart';
-import '../../common/text_style_custom.dart';
+import '../../../common/custom_button.dart';
+import '../../../common/text_style_custom.dart';
 import 'update_password_screen.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
-  const OtpVerificationScreen({super.key});
+ final  String email;
+  const OtpVerificationScreen({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<AuthenticationProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -62,10 +67,12 @@ class OtpVerificationScreen extends StatelessWidget {
                       selectedColor: textLightColor,
                     ),
                     onChanged: (value) {
+                      provider.updateOtp(value);
                       // Handle OTP field changes
                       print(value);
                     },
                     onCompleted: (value) {
+                      provider.updateOtp(value);
                       // Handle OTP completion (e.g., submit OTP)
                       print("OTP Completed: $value");
                     },
@@ -98,9 +105,18 @@ class OtpVerificationScreen extends StatelessWidget {
                 vPad50,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: CustomButton(
+                  child: provider.isLoading ? Center(child: CircularProgressIndicator()) : CustomButton(
                     buttonText: "Verify",
-                    onPressed: () {
+                    onPressed: () async{
+                      final status = await provider.verifyOtp(email);
+                      if (status["detail"] != null) {
+                        CustomSnackbar.show(context, message: status["detail"], backgroundColor: Colors.red);
+                      } else if (status["message"] != null) {
+                        CustomSnackbar.show(context, message: status["message"], backgroundColor: Colors.green);
+                      } else {
+                        CustomSnackbar.show(context, message: "OTP verification failed", backgroundColor: Colors.red);
+                      }
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(

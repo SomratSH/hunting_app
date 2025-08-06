@@ -5,14 +5,18 @@ import 'package:hunting_app/common/custom_button.dart';
 import 'package:hunting_app/common/custom_padding.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
+import 'package:hunting_app/presentation/premium_subscription/subscription_stripe.dart';
+import 'package:hunting_app/presentation/setting/setting_provider.dart';
 import 'package:hunting_app/presentation/term_condition/privacy_policy.dart';
 import 'package:hunting_app/presentation/term_condition/terms_condition.dart';
+import 'package:provider/provider.dart';
 
 class GetPremiumSubscription extends StatelessWidget {
   const GetPremiumSubscription({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final settingProvider = context.watch<SettingProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -74,102 +78,118 @@ class GetPremiumSubscription extends StatelessWidget {
                 vPad15,
 
                 //basic portion
-                DecoratedBox(decoration: BoxDecoration(
-                  color: blue1,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4),
-                              child: Text("Basic", style: customTextStyleAuth(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600
-                              ),
+                // DecoratedBox(decoration: BoxDecoration(
+                //   color: blue1,
+                //   borderRadius: BorderRadius.circular(16),
+                // ),
+                //   child: Padding(
+                //     padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             Padding(
+                //               padding: const EdgeInsets.only(left: 4),
+                //               child: Text("Basic", style: customTextStyleAuth(
+                //                   fontSize: 18,
+                //                   fontWeight: FontWeight.w600
+                //               ),
 
-                              ),
-                            ),
-                            DecoratedBox(decoration: BoxDecoration(
-                              color: green,
-                              borderRadius: BorderRadius.circular(  20),
+                //               ),
+                //             ),
+                //             DecoratedBox(decoration: BoxDecoration(
+                //               color: green,
+                //               borderRadius: BorderRadius.circular(  20),
 
-                            ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("R29.99/month", style: customTextStyleAuth(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500
-                                ),),
-                              ),
-                            )
-                          ],
-                        ),
-                        Text(" Access to all standard hunts", style: customTextStyleAuth(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400
-                        ),)
-                      ],
-                    ),
-                  ),
-                ),
-                vPad15,
+                //             ),
+                //               child: Padding(
+                //                 padding: const EdgeInsets.all(8.0),
+                //                 child: Text("R29.99/month", style: customTextStyleAuth(
+                //                     fontSize: 10,
+                //                     fontWeight: FontWeight.w500
+                //                 ),),
+                //               ),
+                //             )
+                //           ],
+                //         ),
+                //         Text(" Access to all standard hunts", style: customTextStyleAuth(
+                //             fontSize: 14,
+                //             fontWeight: FontWeight.w400
+                //         ),)
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // vPad15,
                 //premium
-                DecoratedBox(decoration: BoxDecoration(
-                    color: card1,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white)
-                ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                Column(
+                  children: List.generate(settingProvider.planList.length, (index) => 
+                
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=> StripePaymentWebView(url: settingProvider.planList[index].stripePriceId.toString(),)));
+                    },
+                    child: DecoratedBox(decoration: BoxDecoration(
+                        color: card1,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.white)
+                    ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 4),
+                                  child: Text(settingProvider.planList[index].name.toString(), style: customTextStyleAuth(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600
+                                  ),
+                    
+                                  ),
+                                ),
+                                DecoratedBox(decoration: BoxDecoration(
+                                  color: textLightColor ,
+                                  borderRadius: BorderRadius.circular(  20),
+                    
+                                ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text("${settingProvider.planList[index].currency}${settingProvider.planList[index].price.toString()}/${settingProvider.planList[index].interval}", style: customTextStyleAuth(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black
+                                    ),),
+                                  ),
+                                )
+                              ],
+                            ),
+                            vPad15,
                             Padding(
-                              padding: const EdgeInsets.only(left: 4),
-                              child: Text("Premium", style: customTextStyleAuth(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600
-                              ),
-
-                              ),
-                            ),
-                            DecoratedBox(decoration: BoxDecoration(
-                              color: textLightColor ,
-                              borderRadius: BorderRadius.circular(  20),
-
-                            ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("R99.99/month", style: customTextStyleAuth(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black
-                                ),),
-                              ),
+                              padding: const EdgeInsets.only(left: 6.0),
+                              child: Text(settingProvider.planList[index].description.toString(), style: customTextStyleAuth(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400
+                              ),),
                             )
                           ],
                         ),
-                        vPad15,
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6.0),
-                          child: Text("Early access to clues, Push alerts when a new hunt launches, Access to big monthly prize hunts.", style: customTextStyleAuth(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400
-                          ),),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                 ),
+               ),
+                ),
+                
+               
                 vPad50,
 
 

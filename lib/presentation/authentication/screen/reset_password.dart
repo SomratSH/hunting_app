@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:hunting_app/common/custom_padding.dart';
+import 'package:hunting_app/common/custom_snackBar.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
-import 'package:hunting_app/presentation/authentication/otp_verification_screen.dart';
+import 'package:hunting_app/presentation/authentication/provider/authentication_provider.dart';
+import 'package:hunting_app/presentation/authentication/screen/otp_verification_screen.dart';
+import 'package:provider/provider.dart';
 
-import '../../common/custom_button.dart';
-import '../../common/custom_button_without_width.dart';
-import '../../common/custom_text_field.dart';
+import '../../../common/custom_button.dart';
+import '../../../common/custom_button_without_width.dart';
+import '../../../common/custom_text_field.dart';
 
 class ResetPassword extends StatelessWidget {
   const ResetPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<AuthenticationProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -76,7 +80,7 @@ class ResetPassword extends StatelessWidget {
                 vPad15,
 
                 CustomTextField(
-                  controller: TextEditingController(),
+                  controller:   provider.emailController,
                   hintText: "Johndoe@example.com",
                   borderRadius: 10,
                   prefixIconSvgPath: 'assets/icon/message.svg',
@@ -131,14 +135,33 @@ class ResetPassword extends StatelessWidget {
               ],
             ),
             vPad50,
-            CustomButtonWithoutWidth(
+          provider.isLoading ? Center(
+            child: CircularProgressIndicator(),
+          ) : CustomButtonWithoutWidth(
               buttonText: "Send OTP",
 
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+
+                if (provider.emailController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Please enter your email")),
+                  );
+                 
+                }else{
+                  final status = await provider.sendOtp();
+                  if (status["detail"] != null) {
+                  CustomSnackbar.show(context, message: status["detail"], backgroundColor: Colors.red);
+                  } else if (status["message"] != null) {
+                    CustomSnackbar.show(context, message: status["message"], backgroundColor: Colors.green);
+                     Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => OtpVerificationScreen()),
+                  MaterialPageRoute(builder: (_) => OtpVerificationScreen(
+                    email: provider.emailController.text,
+                  )),
                 );
+                  }
+                }
+               
               },
             ),
           ],

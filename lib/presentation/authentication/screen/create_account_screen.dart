@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hunting_app/common/custom_padding.dart';
+import 'package:hunting_app/common/custom_snackBar.dart';
 import 'package:hunting_app/common/custom_text_field.dart' show CustomTextField;
 import 'package:hunting_app/common/text_style_custom.dart';
-import 'package:hunting_app/presentation/authentication/login_screen.dart';
-import '../../common/custom_button.dart';
-import '../../common/custom_dialog_term_cons.dart';
-import '../../constant/app_colors.dart';
+import 'package:hunting_app/presentation/authentication/provider/authentication_provider.dart';
+import 'package:hunting_app/presentation/authentication/screen/login_screen.dart';
+import 'package:hunting_app/presentation/authentication/screen/otp_screen.dart';
+import 'package:provider/provider.dart';
+import '../../../common/custom_button.dart';
+import '../../../common/custom_dialog_term_cons.dart';
+import '../../../constant/app_colors.dart';
 import 'phone_number_screen.dart';
 
 class CreateAccountScreen extends StatefulWidget {
@@ -16,16 +20,11 @@ class CreateAccountScreen extends StatefulWidget {
 }
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _retypePasswordController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  bool _isAgree = false;
 
   final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<AuthenticationProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -59,7 +58,20 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       _buildTextField(
                         isPassword: false,
                         label: "Enter your Name",
-                        controller: _nameController,
+                        controller: provider.nameController,
+                        hintText: "John Doe",
+                        prefixIconSvgPath: 'assets/icon/user.svg',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter your name";
+                          }
+                          return null;
+                        },
+                      ),
+                      _buildTextField(
+                        isPassword: false,
+                        label: "Enter your Phone Number",
+                        controller:  provider.phoneController,
                         hintText: "John Doe",
                         prefixIconSvgPath: 'assets/icon/user.svg',
                         validator: (value) {
@@ -72,7 +84,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       _buildTextField(
                         isPassword: false,
                         label: "Enter your Email",
-                        controller: _emailController,
+                        controller:  provider.emailController,
                         hintText: "Johndoe@example.com",
                         prefixIconSvgPath: 'assets/icon/message.svg',
                         keyboardType: TextInputType.emailAddress,
@@ -92,7 +104,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       _buildTextField(
                         isPassword: true,
                         label: "Create Password",
-                        controller: _passwordController,
+                        controller:  provider.passwordController,
                         hintText: "ex: gfe9345@#chDF",
                         prefixIconSvgPath: 'assets/icon/password.svg',
                         obscureText: true,
@@ -106,22 +118,24 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       _buildTextField(
                         isPassword: true,
                         label: "Confirm Password",
-                        controller: _retypePasswordController,
+                        controller:  provider.retypePasswordController,
                         hintText: "Re-type your password",
                         prefixIconSvgPath: 'assets/icon/password.svg',
                         obscureText: true,
                         validator: (value) {
-                          if (value != _passwordController.text) {
+                          if (value !=  provider.passwordController.text) {
                             return "Passwords do not match";
                           }
                           return null;
                         },
                       ),
-                      _buildAgreeToTerms(),
+                      _buildAgreeToTerms(provider),
                       vPad20,
-                      CustomButton(
+                    provider.isLoading ? Center(
+                      child: CircularProgressIndicator(),
+                    )  : CustomButton(
                         buttonText: "Create Account",
-                        onPressed: _createAccount,
+                        onPressed: () => _createAccount(provider),
                       ),
                       vPad10,
                       _buildAlreadyHaveAccount(),
@@ -175,18 +189,18 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   }
 
   // Checkbox and terms text
-  Widget _buildAgreeToTerms() {
+  Widget _buildAgreeToTerms(AuthenticationProvider provider) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Checkbox(
           activeColor: textLightColor,
-          value: _isAgree,
+          value: provider.isAgree,
           checkColor: Colors.white,
           onChanged: (bool? value) {
             setState(() {
-              _isAgree = value ?? false;
+              provider.isAgree = value ?? false;
             });
           },
         ),
@@ -231,13 +245,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   }
 
   // Navigate to Phone Number Screen
-  void _createAccount() {
+  void _createAccount(AuthenticationProvider provider) async{
     if (_formKey.currentState?.validate() ?? false) {
-      if (_isAgree) {
-        Navigator.push(
+      if ( provider.isAgree) {
+       final status = await provider.signUpUser();
+       
+        if(status.isNotEmpty){
+          CustomSnackbar.show(context, message: status);
+          Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => PhoneNumberScreen()),
+          MaterialPageRoute(builder: (_) => OtpScreen(email: provider.emailController.text,)),
         );
+        }
+        
       } else {
         // Show alert dialog if terms are not agreed upon
         _showTermsErrorDialog();

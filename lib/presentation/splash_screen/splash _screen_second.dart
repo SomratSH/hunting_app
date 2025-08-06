@@ -3,8 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hunting_app/common/custom_padding.dart';
 import 'package:hunting_app/common/text_style_custom.dart' show customTextStyle;
 import 'package:hunting_app/constant/app_colors.dart';
-import 'package:hunting_app/presentation/authentication/login_screen.dart';
+import 'package:hunting_app/presentation/authentication/screen/login_screen.dart';
 import 'package:hunting_app/presentation/landing_page/landing_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreenSecond extends StatefulWidget {
   const SplashScreenSecond({super.key});
@@ -14,6 +15,32 @@ class SplashScreenSecond extends StatefulWidget {
 }
 
 class _SplashScreenSecondState extends State<SplashScreenSecond> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkLoginStatus();
+  }
+   void checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authToken = prefs.getString('authToken');
+    if(authToken != null) {
+      // User is logged in, navigate to the home screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LandingPage()),
+      );
+    } else {
+      // User is not logged in, navigate to the login screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    }
+    // Implement your login status check logic here
+    // For example, check if the user is logged in and navigate accordingly
+  }
  
   @override
   Widget build(BuildContext context) {

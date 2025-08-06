@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:hunting_app/common/custom_button.dart';
 import 'package:hunting_app/common/custom_padding.dart';
+import 'package:hunting_app/common/custom_snackBar.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
-import 'package:hunting_app/presentation/authentication/login_screen.dart';
+import 'package:hunting_app/presentation/authentication/provider/authentication_provider.dart';
+import 'package:hunting_app/presentation/authentication/screen/login_screen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 
 class OtpScreen extends StatelessWidget {
-  const OtpScreen({super.key});
+  final String email;
+  const OtpScreen({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
+    final provider = context
+        .watch<AuthenticationProvider>(); // Replace with your actual provider
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -68,11 +74,13 @@ class OtpScreen extends StatelessWidget {
                   ),
                   onChanged: (value) {
                     // Handle OTP field changes
+                    provider.updateOtp(value);
                     print(value);
                   },
                   onCompleted: (value) {
                     // Handle OTP completion (e.g., submit OTP)
                     print("OTP Completed: $value");
+                    provider.updateOtp(value);
                   },
                 ),
               ),
@@ -103,11 +111,20 @@ class OtpScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: CustomButton(
                   buttonText: "Verify",
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => LoginScreen()),
-                    );
+                  onPressed: () async {
+                    if (provider.otpController.text.isNotEmpty) {
+                      // Call the method to verify OTP
+                      final status = await provider.signUpVerifyUser(email);
+                      if (status.isNotEmpty) {
+                        CustomSnackbar.show(context, message: status);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => LoginScreen()),
+                        );
+                      }
+                    } else {
+                      CustomSnackbar.show(context, message: "Otp Not Matched");
+                    }
                   },
                   isWidth: false,
                 ),

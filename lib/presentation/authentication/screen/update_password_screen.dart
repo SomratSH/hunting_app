@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hunting_app/common/custom_padding.dart';
+import 'package:hunting_app/common/custom_snackBar.dart';
 import 'package:hunting_app/constant/app_colors.dart';
-import 'package:hunting_app/presentation/authentication/login_screen.dart';
+import 'package:hunting_app/presentation/authentication/provider/authentication_provider.dart';
+import 'package:hunting_app/presentation/authentication/screen/login_screen.dart';
+import 'package:provider/provider.dart';
 
-import '../../common/custom_button_without_width.dart';
-import '../../common/custom_text_field.dart';
-import '../../common/text_style_custom.dart';
+import '../../../common/custom_button_without_width.dart';
+import '../../../common/custom_text_field.dart';
+import '../../../common/text_style_custom.dart';
 import 'otp_verification_screen.dart';
 
 class UpdatePasswordScreen extends StatelessWidget {
@@ -13,6 +16,7 @@ class UpdatePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<AuthenticationProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -77,7 +81,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                   vPad15,
                   CustomTextField(
                     isPassword: true,
-                    controller: TextEditingController(),
+                    controller: provider.passwordController,
                     hintText: "ex: gfe9345@#chDF",
                     borderRadius: 10,
                     prefixIconSvgPath: 'assets/icon/password.svg',
@@ -94,7 +98,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                   vPad15,
                   CustomTextField(
                     isPassword: true,
-                    controller: TextEditingController(),
+                    controller: provider.retypePasswordController,
                     hintText: "ex: gfe9345@#chDF",
                     borderRadius: 10,
                     prefixIconSvgPath: 'assets/icon/password.svg',
@@ -102,14 +106,33 @@ class UpdatePasswordScreen extends StatelessWidget {
                 ],
               ),
               vPad50,
-              CustomButtonWithoutWidth(
+             provider.isLoading ? Center(
+               child: CircularProgressIndicator(
+                
+               ),
+             ) : CustomButtonWithoutWidth(
                 buttonText: "Confirm",
 
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => LoginScreen()),
-                  );
+                onPressed: () async{
+
+                  if (provider.passwordController.text.isEmpty ||
+                      provider.retypePasswordController.text.isEmpty) {
+                    CustomSnackbar.show(context, message: "Please fill all fields", backgroundColor: Colors.red);
+                    return;
+                  }else if (provider.passwordController.text != provider.retypePasswordController.text) {
+                    CustomSnackbar.show(context, message: "Passwords do not match", backgroundColor: Colors.red);
+                    return;
+                  }
+                  final response = await provider.resetPassword();
+                  if (response["message"] != null) {
+                    CustomSnackbar.show(context, message: response["message"], backgroundColor: Colors.green);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => LoginScreen()),
+                    );
+                  } else {
+                    CustomSnackbar.show(context, message: response["detail"], backgroundColor: Colors.red);
+                  }
                 },
               ),
             ],

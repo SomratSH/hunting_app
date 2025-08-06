@@ -103,10 +103,10 @@ class PhoneNumberScreen extends StatelessWidget {
                 CustomButton(
                   buttonText: "Send OTP",
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => OtpScreen()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (_) => OtpScreen()),
+                    // );
                   },
                 ),
                 vPad15,

@@ -3,8 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hunting_app/common/custom_padding.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
+import 'package:hunting_app/presentation/home_screen/home_provider.dart';
 import 'package:hunting_app/presentation/notification/notification.dart';
 import 'package:hunting_app/presentation/profile/profile.dart';
+import 'package:hunting_app/presentation/profile/profile_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../constant/app_const.dart';
 import '../hunts/hunts_details.dart';
@@ -16,6 +19,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileProvider = context.watch<ProfileProvider>();
+    final  homeProvider = context.watch<HomeProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -62,20 +67,44 @@ class HomeScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 10),
                       // Profile icon with a circle background
-                      InkWell(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=> ProfilePage())),
-                        child: DecoratedBox(
+                     profileProvider.isLoading ? DecoratedBox(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: const Color.fromARGB(255, 129, 129, 129),
+                            // color: const Color.fromARGB(255, 129, 129, 129),
                           ),
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
+                              child:   SvgPicture.asset(
                                 "assets/icon/profile.svg", // SVG asset path
                                 height: 20, // You can adjust the size as needed
                                 width: 20,
+                               
+                              ),
+                            ),
+                          ),
+                        )
+                       : InkWell(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=> ProfilePage())),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            // color: const Color.fromARGB(255, 129, 129, 129),
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child:  profileProvider.profileModel.data!.image!.isEmpty ?  SvgPicture.asset(
+                                "assets/icon/profile.svg", // SVG asset path
+                                height: 20, // You can adjust the size as needed
+                                width: 20,
+                              ) : ClipOval(
+                                child: Image.network(
+                                  profileProvider.profileModel.data!.image!,
+                                  fit: BoxFit.cover,
+                                  width: 40,
+                                  height: 40,
+                                ),
                               ),
                             ),
                           ),
@@ -262,8 +291,10 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Column(
-                  children: List.generate(data.length, (index) {
+              homeProvider.isLoading ? Center(
+                child: CircularProgressIndicator(),
+              )  : Column(
+                  children: List.generate(homeProvider.huntsList.length, (index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
@@ -273,17 +304,17 @@ class HomeScreen extends StatelessWidget {
                         )));
                         },
                         child: CustomCard(
-                          
-                          title: data[index].title,
-                          players: data[index].players,
-                          subtitle: data[index].subtitle,
-                          location: data[index].location,
-                          name: data[index].name,
-                          status: data[index].status,
-                          price: data[index].price,
-                          timerText: data[index].timerText,
-                          level: data[index].level,
-                          rating: data[index].rating,
+
+                          title: homeProvider.huntsList[index].title.toString(),
+                          players: "3",
+                          subtitle: homeProvider.huntsList[index].description.toString(),
+                          location: homeProvider.huntsList[index].city.toString(),
+                          name: "|",
+                          status: homeProvider.huntsList[index].status.toString(),
+                          price: homeProvider.huntsList[index].prizeAmount.toString(),
+                          timerText: homeProvider.huntsList[index].duration.toString(),
+                          level: homeProvider.huntsList[index].difficultyLevel.toString(),
+                          rating: "",
                         ),
                       ),
                     );

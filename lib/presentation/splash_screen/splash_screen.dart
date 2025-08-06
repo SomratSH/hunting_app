@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hunting_app/constant/app_colors.dart';
+import 'package:hunting_app/presentation/landing_page/landing_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../authentication/screen/login_screen.dart';
 import 'splash _screen_second.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 4), () {
+
       Navigator.pushReplacement(
         // ignore: use_build_context_synchronously
         context,
@@ -23,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(

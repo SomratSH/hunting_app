@@ -46,6 +46,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       
       ),
       child: TextField(
+        
         controller: widget.controller,
         obscureText: widget.isPassword ? _obscureText : false,
         keyboardType: widget.keyboardType,

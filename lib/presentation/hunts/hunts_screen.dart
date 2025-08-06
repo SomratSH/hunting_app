@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hunting_app/presentation/home_screen/home_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/custom_padding.dart';
 import '../../common/text_style_custom.dart';
@@ -11,6 +13,7 @@ class HuntsScreen extends StatelessWidget {
   const HuntsScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final homeProvider = context.watch<HomeProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -39,10 +42,14 @@ class HuntsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(
+            homeProvider.isLoading ? Center(
+              child: CircularProgressIndicator(),
+            ) :   homeProvider.huntsList.isEmpty ? Center(
+              child: Text("No hunts available"),
+            ) : Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  children: List.generate(data.length, (index) {
+                  children: List.generate(homeProvider.huntsList.length, (index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
@@ -52,16 +59,18 @@ class HuntsScreen extends StatelessWidget {
                           )));
                         },
                         child: CustomCard(
-                          title: data[index].title,
-                          players: data[index].players,
-                          subtitle: data[index].subtitle,
-                          location: data[index].location,
-                          name: data[index].name,
-                          status: data[index].status,
-                          price: data[index].price,
-                          timerText: data[index].timerText,
-                          level: data[index].level,
-                          rating: data[index].rating,
+
+                          title: homeProvider.huntsList[index].title.toString(),
+                          players: "3",
+                          subtitle: homeProvider.huntsList[index].description.toString(),
+                          // location: homeProvider.huntsList[index].location,
+                          location: homeProvider.huntsList[index].city.toString(),
+                          name: "|",
+                          status: homeProvider.huntsList[index].status.toString(),
+                          price: homeProvider.huntsList[index].prizeAmount.toString(),
+                          timerText: homeProvider.huntsList[index].duration.toString(),
+                          level: homeProvider.huntsList[index].difficultyLevel.toString(),
+                          rating: "",
                         ),
                       ),
                     );

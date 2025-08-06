@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hunting_app/presentation/profile/profile_provider.dart';
+import 'package:provider/provider.dart';
 import '../../common/text_style_custom.dart';
 import '../../constant/app_colors.dart';
 import 'widget/porfile_tile.dart';
@@ -8,21 +10,22 @@ class ProfilePage extends StatelessWidget {
   final String name = "John Doe";
   final String email = "john.doe@example.com";
   final String phone = "+1 234 567 8901";
-  final String address = "123 Main Street, New York, USA";
-  final String dateOfBirth = "January 1, 1990";
-  final String occupation = "Software Developer";
-  final String gender = "Male";
-  final String nationality = "American";
-  final String maritalStatus = "Single";
-  final String languages = "English, Spanish";
-  final String website = "www.johndoe.dev";
-  final String bio =
-      "Passionate developer with 10+ years of experience in mobile and web technologies. Loves solving real-world problems with clean and efficient code.";
+  // final String address = "123 Main Street, New York, USA";
+  // final String dateOfBirth = "January 1, 1990";
+  // final String occupation = "Software Developer";
+  // final String gender = "Male";
+  // final String nationality = "American";
+  // final String maritalStatus = "Single";
+  // final String languages = "English, Spanish";
+  // final String website = "www.johndoe.dev";
+  // final String bio =
+  //     "Passionate developer with 10+ years of experience in mobile and web technologies. Loves solving real-world problems with clean and efficient code.";
 
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final profileProvider = context.watch<ProfileProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -49,6 +52,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 48),
+                  
                 ],
               ),
               Divider(color: blueShade3),
@@ -59,36 +63,36 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 60,
-                    backgroundImage: AssetImage(profileImage),
+                    backgroundImage: profileProvider.profileModel.data!.image!.isEmpty ? AssetImage(profileImage) : NetworkImage(profileProvider.profileModel.data!.image!) as ImageProvider,
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: () {
-                        // TODO: Add image picker
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.teal,
-                        ),
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Positioned(
+                  //   bottom: 0,
+                  //   right: 0,
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       // TODO: Add image picker
+                  //     },
+                  //     child: Container(
+                  //       padding: EdgeInsets.all(5),
+                  //       decoration: BoxDecoration(
+                  //         shape: BoxShape.circle,
+                  //         color: Colors.teal,
+                  //       ),
+                  //       child: Icon(
+                  //         Icons.camera_alt,
+                  //         color: Colors.white,
+                  //         size: 20,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               SizedBox(height: 20),
 
               // Basic Info
               Text(
-                name,
+                profileProvider.profileModel.data!.name!,
                 style: customTextStyleAuth(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -96,63 +100,63 @@ class ProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                email,
+                profileProvider.profileModel.data!.email!,
                 style: TextStyle(fontSize: 16, color: Colors.grey[400]),
               ),
               SizedBox(height: 5),
               Text(
-                phone,
+                profileProvider.profileModel.data!.phone!,
                 style: TextStyle(fontSize: 16, color: Colors.grey[400]),
               ),
               SizedBox(height: 30),
               Divider(color: blueShade3),
 
               // Additional Details
-              ProfileInfoTile(
-                title: "Address",
-                value: address,
-                icon: Icons.location_on,
-              ),
-              ProfileInfoTile(
-                title: "Date of Birth",
-                value: dateOfBirth,
-                icon: Icons.cake,
-              ),
-              ProfileInfoTile(
-                title: "Gender",
-                value: gender,
-                icon: Icons.person,
-              ),
-              ProfileInfoTile(
-                title: "Marital Status",
-                value: maritalStatus,
-                icon: Icons.favorite,
-              ),
-              ProfileInfoTile(
-                title: "Nationality",
-                value: nationality,
-                icon: Icons.flag,
-              ),
-              ProfileInfoTile(
-                title: "Occupation",
-                value: occupation,
-                icon: Icons.work,
-              ),
-              ProfileInfoTile(
-                title: "Languages",
-                value: languages,
-                icon: Icons.language,
-              ),
-              ProfileInfoTile(
-                title: "Website",
-                value: website,
-                icon: Icons.link,
-              ),
-              ProfileInfoTile(
-                title: "Bio",
-                value: bio,
-                icon: Icons.info_outline,
-              ),
+              // ProfileInfoTile(
+              //   title: "Address",
+              //   value: address,
+              //   icon: Icons.location_on,
+              // ),
+              // ProfileInfoTile(
+              //   title: "Date of Birth",
+              //   value: dateOfBirth,
+              //   icon: Icons.cake,
+              // ),
+              // ProfileInfoTile(
+              //   title: "Gender",
+              //   value: gender,
+              //   icon: Icons.person,
+              // ),
+              // ProfileInfoTile(
+              //   title: "Marital Status",
+              //   value: maritalStatus,
+              //   icon: Icons.favorite,
+              // ),
+              // ProfileInfoTile(
+              //   title: "Nationality",
+              //   value: nationality,
+              //   icon: Icons.flag,
+              // ),
+              // ProfileInfoTile(
+              //   title: "Occupation",
+              //   value: occupation,
+              //   icon: Icons.work,
+              // ),
+              // ProfileInfoTile(
+              //   title: "Languages",
+              //   value: languages,
+              //   icon: Icons.language,
+              // ),
+              // ProfileInfoTile(
+              //   title: "Website",
+              //   value: website,
+              //   icon: Icons.link,
+              // ),
+              // ProfileInfoTile(
+              //   title: "Bio",
+              //   value: bio,
+              //   icon: Icons.info_outline,
+              // ),
               SizedBox(height: 30),
             ],
           ),
