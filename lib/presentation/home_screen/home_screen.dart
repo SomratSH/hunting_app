@@ -294,7 +294,7 @@ class HomeScreen extends StatelessWidget {
               homeProvider.isLoading ? Center(
                 child: CircularProgressIndicator(),
               )  : Column(
-                  children: List.generate(homeProvider.huntsList.length, (index) {
+                  children: List.generate(homeProvider.huntsList.results!.length, (index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
@@ -305,16 +305,16 @@ class HomeScreen extends StatelessWidget {
                         },
                         child: CustomCard(
 
-                          title: homeProvider.huntsList[index].title.toString(),
-                          players: "3",
-                          subtitle: homeProvider.huntsList[index].description.toString(),
-                          location: homeProvider.huntsList[index].city.toString(),
+                          title: homeProvider.huntsList.results![index].title.toString(),
+                          players: homeProvider.huntsList.results![index].hunters.toString(),
+                          subtitle: homeProvider.huntsList.results![index].description.toString(),
+                          location: homeProvider.huntsList.results![index].city.toString(),
                           name: "|",
-                          status: homeProvider.huntsList[index].status.toString(),
-                          price: homeProvider.huntsList[index].prizeAmount.toString(),
-                          timerText: homeProvider.huntsList[index].duration.toString(),
-                          level: homeProvider.huntsList[index].difficultyLevel.toString(),
-                          rating: "",
+                          status: homeProvider.huntsList.results![index].status.toString(),
+                          price: homeProvider.huntsList.results![index].prizeAmount.toString(),
+                          timerText: homeProvider.huntsList.results![index].duration.toString(),
+                          level: homeProvider.huntsList.results![index].difficultyLevel.toString(),
+                          rating: homeProvider.huntsList.results![index].ratings.toString(),
                         ),
                       ),
                     );

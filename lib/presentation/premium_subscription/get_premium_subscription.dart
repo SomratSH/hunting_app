@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hunting_app/common/custom_button.dart';
 import 'package:hunting_app/common/custom_padding.dart';
+import 'package:hunting_app/common/custom_snackBar.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
 import 'package:hunting_app/presentation/premium_subscription/subscription_stripe.dart';
@@ -131,8 +132,15 @@ class GetPremiumSubscription extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=> StripePaymentWebView(url: settingProvider.planList[index].stripePriceId.toString(),)));
+                    onTap: ()async{
+                       String data = await settingProvider.createSubscriptionApi(settingProvider.planList[index].id.toString());
+
+                       if(data.isEmpty){
+                          CustomSnackbar.show(context, message: "Something wrong, try again!", backgroundColor: Colors.red);
+                        }else if(data.isNotEmpty){
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=>StripePaymentWebView(url: data.toString(),) ));
+                        }
+                      
                     },
                     child: DecoratedBox(decoration: BoxDecoration(
                         color: card1,

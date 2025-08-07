@@ -6,8 +6,11 @@ import 'package:hunting_app/common/enum.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
 import 'package:hunting_app/constant/app_const.dart';
+import 'package:hunting_app/constant/app_urls.dart';
+import 'package:hunting_app/presentation/home_screen/home_provider.dart';
 import 'package:hunting_app/presentation/hunts/all_clues_screen.dart';
 import 'package:hunting_app/presentation/hunts/clues_screen.dart';
+import 'package:provider/provider.dart';
 
 import 'widget/custom_duration_card.dart';
 
@@ -18,6 +21,7 @@ class HuntsDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<HomeProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -55,7 +59,7 @@ class HuntsDetails extends StatelessWidget {
                   height: 150,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/hunt_details.png"),
+                      image: provider.huntsList.results![index!].image != null ?  NetworkImage( AppUrls.imageUrl+ provider.huntsList.results![index!].image.toString()) : AssetImage("assets/hunt_details.png"),
                     ),
                     shape: BoxShape.circle,
                   ),
@@ -76,7 +80,7 @@ class HuntsDetails extends StatelessWidget {
                     Icon(Icons.group_outlined, color: Colors.white),
                     hPad5,
                     Text(
-                      "${data[index!].players} hunters",
+                      "${provider.huntsList.results![index!].hunters} hunters",
                       style: customTextStyleAuth(
                         fontWeight: FontWeight.w400,
                         fontSize: 15,
@@ -86,7 +90,7 @@ class HuntsDetails extends StatelessWidget {
                     Icon(Icons.star, color: Color(0xffC89800)),
                     hPad5,
                     Text(
-                      data[index!].rating,
+                      provider.huntsList.results![index!].ratings.toString(),
                       style: customTextStyleAuth(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
@@ -102,7 +106,7 @@ class HuntsDetails extends StatelessWidget {
                       Expanded(
                         child: CustomDurationCard(
                           iconPath: "assets/icon/time.svg", // Custom icon path
-                          duration: data[index!].timerText, // Custom duration value
+                          duration: provider.huntsList.results![index!].duration.toString(), // Custom duration value
                           title: "Duration", // Custom title
                         ),
                       ),
@@ -147,7 +151,7 @@ class HuntsDetails extends StatelessWidget {
                           ),
                           vPad10,
                           Text(
-                            "Embark on an epic adventure through the historic downtown district. Follow cryptic clues, solve challenging puzzles, and uncover the secrets of a treasure that has been hidden for decades. This hunt will test yourwit, observation skills, and knowledge of local history.",
+                            provider.huntsList.results![index!].description.toString(),
               
                             style: customTextStyleAuth(
                               fontSize: 14,

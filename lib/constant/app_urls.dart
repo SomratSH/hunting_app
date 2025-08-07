@@ -2,6 +2,7 @@ class AppUrls {
   AppUrls();
 
   static const String baseUrl = 'http://10.10.13.19:8000/api/v1';
+  static const String imageUrl = "http://10.10.13.19:8000";
 
   //sign up urls
   static const String signUp = '/accounts/signup/step1/';
@@ -20,6 +21,7 @@ class AppUrls {
 
   //subscription portion
   static String getPlanUrl = "/subscriptions/plans/";
+  static String creatSubscription = "/subscriptions/checkout/";
 
   //profile urls
   static String get profileUrl => '/accounts/profile/';

@@ -31,7 +31,7 @@ class _StripePaymentWebViewState extends State<StripePaymentWebView> {
   bool hasShownError = false; // Prevent duplicate error messages
   
   // Use the actual URL from your backend/Stripe success redirect
-  final String successUrlPattern = 'http://127.0.0.1:8000/?success=success';
+  final String successUrlPattern = 'http://10.10.13.19:8000/status=success';
 
   // Professional SnackBar helper methods
   void _showSuccessSnackBar() {

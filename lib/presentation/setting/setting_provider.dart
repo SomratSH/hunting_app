@@ -17,4 +17,16 @@ class SettingProvider extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
+
+  Future<String> createSubscriptionApi(String priceId) async {
+    isLoading = true;
+    notifyListeners();
+    final data = await SettingRepo().createSubscription( {}, priceId, );
+    if (data.isNotEmpty) {
+      isLoading = false;
+      notifyListeners();
+      return data["checkout_url"];
+    }
+    return "";
+  }
 }

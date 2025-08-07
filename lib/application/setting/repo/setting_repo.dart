@@ -12,4 +12,15 @@ class SettingRepo {
 
     return response;
   }
+  Future<Map<String, dynamic>> createSubscription(
+    Map<String, dynamic> data,
+    String id,
+  ) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final response = await ApiService().postDataRegular(
+     authToken: prefs.getString("authToken"), "${AppUrls.creatSubscription}$id/",
+     data
+    );
+    return response;
+  }
 }
