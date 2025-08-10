@@ -8,7 +8,7 @@ class FeaturedItem extends StatelessWidget {
   final String title;
   final String subtitle;
   final double imageHeight;
-  // final double imageWidth;
+  final double imageWidth;
   final Color categoryColor;
   final Color textColor;
 
@@ -19,7 +19,8 @@ class FeaturedItem extends StatelessWidget {
     required this.title,
     required this.subtitle,
     this.imageHeight = 120,
-    // this.imageWidth = 190,
+
+    this.imageWidth = 190,
     this.categoryColor = const Color(0xffC89800),
     this.textColor = Colors.black,
   }) : super(key: key);
@@ -32,11 +33,12 @@ class FeaturedItem extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(10),
           
-          child: Image.asset(
+          child: Image.network(
             imagePath,
             height: imageHeight,
+            width: imageWidth,
             // width: imageWidth,
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.fill,
           ),
         ),
         Positioned(

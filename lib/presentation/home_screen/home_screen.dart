@@ -141,7 +141,6 @@ class HomeScreen extends StatelessWidget {
                     fontWeight: FontWeight.w400
                   ),
                   decoration: InputDecoration(
-                    
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.asset(
@@ -167,27 +166,43 @@ class HomeScreen extends StatelessWidget {
             vPad20,
                     Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: FeaturedItem(
-                          imagePath: "assets/featured_image_one.png",
-                          categoryName: "Featured",
-                          title: "Mega Prize Hunt",
-                          subtitle: "450",
-                        ),
-                      ),
-                      hPad10,
-                      Expanded(
-                        child: FeaturedItem(
-                          imagePath: "assets/featured_image_two.png",
-                          categoryName: "New",
-                          title: "Weekend Special",
-                          subtitle: "500",
-                          categoryColor: Color(0xffC89800),
-                        ),
-                      ),
-                    ],
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(homeProvider.huntsList.results!.length, (index){
+                        if(homeProvider.huntsList.results![index].label == "featured" || homeProvider.huntsList.results![index].label == "new" || homeProvider.huntsList.results![index].label == "popular"){
+                          return  Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FeaturedItem(
+                              imagePath: homeProvider.huntsList.results![index].image.toString(),
+                              categoryName: homeProvider.huntsList.results![index].label.toString(),
+                              title: truncateText(homeProvider.huntsList.results![index].title.toString(),15)  ,
+                              subtitle: homeProvider.huntsList.results![index].prizeAmount.toString(),
+                            ),
+                          );
+                        } else{
+                          return SizedBox();
+                        }
+                      } 
+                      
+                     ,)
+                      
+                      // [
+                        
+                        
+                       
+                      //   hPad10,
+                      //   Expanded(
+                      //     child: FeaturedItem(
+                      //       imagePath: "assets/featured_image_two.png",
+                      //       categoryName: "New",
+                      //       title: "Weekend Special",
+                      //       subtitle: "500",
+                      //       categoryColor: Color(0xffC89800),
+                      //     ),
+                      //   ),
+                      // ],
+                    ),
                   ),
                 ),
                 vPad10,

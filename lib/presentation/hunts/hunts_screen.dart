@@ -59,7 +59,6 @@ class HuntsScreen extends StatelessWidget {
                           )));
                         },
                         child: CustomCard(
-
                           title: homeProvider.huntsList.results![index].title.toString(),
                           players: homeProvider.huntsList.results![index].hunters.toString(),
                           subtitle: homeProvider.huntsList.results![index].description.toString(),
@@ -70,7 +69,7 @@ class HuntsScreen extends StatelessWidget {
                           price: homeProvider.huntsList.results![index].prizeAmount.toString(),
                           timerText: homeProvider.huntsList.results![index].duration.toString(),
                           level: homeProvider.huntsList.results![index].difficultyLevel.toString(),
-                          rating:homeProvider.huntsList.results![index].ratings,
+                          rating:homeProvider.huntsList.results![index].ratings.toString(),
                         ),
                       ),
                     );

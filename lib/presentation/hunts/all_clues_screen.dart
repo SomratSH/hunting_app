@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hunting_app/common/custom_padding.dart';
 import 'package:hunting_app/constant/app_colors.dart';
 import 'package:hunting_app/constant/app_const.dart';
+import 'package:hunting_app/presentation/home_screen/home_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/enum.dart';
 import '../../common/text_style_custom.dart';
@@ -21,7 +23,7 @@ final completedClues = data[index!]
     .where((clue) => clue.status == ClueStatus.completed)
     .length;
 final progress = completedClues / totalClues;
-
+    final provider = context.watch<HomeProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -52,7 +54,8 @@ final progress = completedClues / totalClues;
               Divider(color: Color(0xff264A5F)),
               vPad10,
               Text(
-                data[index!].title,
+                provider.huntsList.results![index!].title.toString(),
+                textAlign: TextAlign.center,
                 style: customTextStyleAuth(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -66,7 +69,7 @@ final progress = completedClues / totalClues;
                   SvgPicture.asset("assets/icon/map.svg"),
                   hPad5,
                   Text(
-                    "${data[index!].location.toString()}",
+                    "${provider.huntsList.results![index!].city.toString()}",
                     style: customTextStyleAuth(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -107,7 +110,7 @@ final progress = completedClues / totalClues;
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            '${completedClues}/${totalClues} clues solved',
+                            '${completedClues}/${provider.huntsList.results![index!].clues!.length} clues solved',
                             style: customTextStyleAuth(
                               fontSize: 11,
                               fontWeight: FontWeight.w400,
@@ -135,19 +138,19 @@ final progress = completedClues / totalClues;
               vPad10,
              
               Column(
-                children: List.generate(data[index!].clues.length, (i){
-                  final clues = data[index!].clues[i];
+                children: List.generate(provider.huntsList.results![index!].clues!.length, (i){
+                  final clues = provider.huntsList.results![index!].clues![i];
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ClueCard(
                                     clueNumber: i + 1,
-                                    title: clues.title,
+                                    title: clues.name.toString(),
                                     description:
                       "Look for the ancient flame that never dies in the heart \nof South Africa",
-                                    status:  clues.status,
+                                    status: clues.isLocked == true ?   ClueStatus.locked : clues.status == "active" ? ClueStatus.inProgress : ClueStatus.locked,
                                      onViewClue: () {
                   print("---");
-                  clues.status == ClueStatus.inProgress ?  Navigator.push(context, MaterialPageRoute(builder: (_)=> CluesScreen(index: index,))) : null;
+                  // clues.isFinalClue == ClueStatus.inProgress ?  Navigator.push(context, MaterialPageRoute(builder: (_)=> CluesScreen(index: index,))) : null;
                 },
                                   ),
                   );

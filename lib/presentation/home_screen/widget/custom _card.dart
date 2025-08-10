@@ -30,6 +30,8 @@ class CustomCard extends StatelessWidget {
 
   @override
 Widget build(BuildContext context) {
+    List<String> timeParts = timerText.split(":");
+  
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(9),
@@ -49,7 +51,8 @@ Widget build(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                   truncateText(title, 25) ,
+                    overflow: TextOverflow.ellipsis,
                     style: customTextStyleAuth(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -123,7 +126,7 @@ Widget build(BuildContext context) {
                      Icon(Icons.access_time, color: Color(0xff9E9E9E), size: 20),
                       hPad5,
                   Text(
-                    timerText,
+                    "${timeParts[0]} Hour ${timeParts[1]} Min ${timeParts[2]} Sec",
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.grey,
@@ -265,4 +268,11 @@ Widget build(BuildContext context) {
       ),
     );
   }
+}
+
+String truncateText(String text, int maxLength) {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...';  // Add ellipsis if text exceeds maxLength
+  }
+  return text;
 }

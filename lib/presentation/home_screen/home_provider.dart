@@ -3,7 +3,7 @@ import 'package:hunting_app/application/hunts/model/hunts_model.dart';
 import 'package:hunting_app/application/hunts/repo/hunts_repo.dart';
 
 class HomeProvider extends ChangeNotifier{
-  HuntModel huntsList = HuntModel();  
+  HuntsModel huntsList = HuntsModel();  
   bool isLoading = false;
 
 
@@ -11,7 +11,7 @@ class HomeProvider extends ChangeNotifier{
       isLoading = true;
       notifyListeners();
       final response = await HuntsRepo().getHunts();
-      huntsList = HuntModel.fromJson(response);
+      huntsList = HuntsModel.fromJson(response);
       isLoading = false;
       notifyListeners();
   }
