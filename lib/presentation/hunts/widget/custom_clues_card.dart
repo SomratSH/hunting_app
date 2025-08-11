@@ -141,7 +141,7 @@ class ClueCard extends StatelessWidget {
               ),
             vPad10,
             /// View Clue Button (only for inProgress)
-            if (status == ClueStatus.inProgress && onViewClue != null)
+            // if (status == ClueStatus.inProgress && onViewClue != null && ClueStatus.locked == status)
 
             InkWell(
               onTap: onViewClue,

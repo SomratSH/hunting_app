@@ -27,4 +27,10 @@ class AppUrls {
   static String get profileUrl => '/accounts/profile/';
   static String get updateProfile => '/accounts/profile/update/';
 
+  //core term and policy
+  static String termConditonUrl = "/cores/terms-conditions/";
+  static String privacyPolicy = "/cores/privacy-policy/";
+
+  
+
 }

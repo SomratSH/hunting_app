@@ -121,60 +121,60 @@ class LoginScreen extends StatelessWidget {
                       // Navigator.push(context, MaterialPageRoute(builder: (_) => LandingPage()));
                     }),
                     vPad10,
-                    Center(
-                      child: Text(
-                        "Or",
-                        style: customTextStyleAuth(
-                          fontSize: 12,
-                          color: Color(0xff97BECA),
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    vPad10,
-                    // Row with container and SVG icons
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xff97BECA)),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                'assets/icon/google.svg',
-                                width: 24,
-                                height: 24,
-                              ),
-                            ),
-                          ),
-                        ),
-                        hPad15,
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xff97BECA)),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                'assets/icon/apple.svg',
-                                width: 24,
-                                height: 24,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Center(
+                    //   child: Text(
+                    //     "Or",
+                    //     style: customTextStyleAuth(
+                    //       fontSize: 12,
+                    //       color: Color(0xff97BECA),
+                    //       fontWeight: FontWeight.w400,
+                    //     ),
+                    //   ),
+                    // ),
+                    // vPad10,
+                    // // Row with container and SVG icons
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     Container(
+                    //       decoration: BoxDecoration(
+                    //         border: Border.all(color: Color(0xff97BECA)),
+                    //         borderRadius: BorderRadius.circular(10),
+                    //       ),
+                    //       child: GestureDetector(
+                    //         onTap: () {},
+                    //         child: Padding(
+                    //           padding: const EdgeInsets.all(8.0),
+                    //           child: SvgPicture.asset(
+                    //             'assets/icon/google.svg',
+                    //             width: 24,
+                    //             height: 24,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     hPad15,
+                    //     Container(
+                    //       decoration: BoxDecoration(
+                    //         border: Border.all(color: Color(0xff97BECA)),
+                    //         borderRadius: BorderRadius.circular(10),
+                    //       ),
+                    //       child: GestureDetector(
+                    //         onTap: () {},
+                    //         child: Padding(
+                    //           padding: const EdgeInsets.all(8.0),
+                    //           child: SvgPicture.asset(
+                    //             'assets/icon/apple.svg',
+                    //             width: 24,
+                    //             height: 24,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
           
-                    vPad20,
+                    // vPad20,
           
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,

@@ -23,4 +23,22 @@ class SettingRepo {
     );
     return response;
   }
+ Future<Map<String, dynamic>> getPrivacyPolicy() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final response = await ApiService().getData(
+      AppUrls.privacyPolicy,
+      authToken: prefs.getString('authToken'),
+    );
+
+    return response;
+  }
+   Future<Map<String, dynamic>> getTermsConndition() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final response = await ApiService().getData(
+      AppUrls.termConditonUrl,
+      authToken: prefs.getString('authToken'),
+    );
+
+    return response;
+  }
 }

@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileProvider = context.watch<ProfileProvider>();
-    final  homeProvider = context.watch<HomeProvider>();
+    final homeProvider = context.watch<HomeProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -39,8 +39,13 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       // Notification icon with badge
                       InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (_)=> NotificationScreen()));
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => NotificationScreen(),
+                            ),
+                          );
                         },
                         child: Stack(
                           clipBehavior: Clip.none,
@@ -67,85 +72,93 @@ class HomeScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 10),
                       // Profile icon with a circle background
-                     profileProvider.isLoading ? DecoratedBox(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            // color: const Color.fromARGB(255, 129, 129, 129),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child:   SvgPicture.asset(
-                                "assets/icon/profile.svg", // SVG asset path
-                                height: 20, // You can adjust the size as needed
-                                width: 20,
-                               
+                      profileProvider.isLoading
+                          ? DecoratedBox(
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SvgPicture.asset(
+                                    "assets/icon/profile.svg", // SVG asset path
+                                    height:
+                                        20, // You can adjust the size as needed
+                                    width: 20,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        )
-                       : InkWell(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)=> ProfilePage())),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            // color: const Color.fromARGB(255, 129, 129, 129),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child:  profileProvider.profileModel.data!.image!.isEmpty ?  SvgPicture.asset(
-                                "assets/icon/profile.svg", // SVG asset path
-                                height: 20, // You can adjust the size as needed
-                                width: 20,
-                              ) : ClipOval(
-                                child: Image.network(
-                                  profileProvider.profileModel.data!.image!,
-                                  fit: BoxFit.cover,
-                                  width: 40,
-                                  height: 40,
+                            )
+                          : InkWell(
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ProfilePage(),
+                                ),
+                              ),
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child:
+                                        profileProvider
+                                            .profileModel
+                                            .data!
+                                            .image!
+                                            .isEmpty
+                                        ? SvgPicture.asset(
+                                            "assets/icon/profile.svg", // SVG asset path
+                                            height:
+                                                20, // You can adjust the size as needed
+                                            width: 20,
+                                          )
+                                        : ClipOval(
+                                            child: Image.network(
+                                              profileProvider
+                                                  .profileModel
+                                                  .data!
+                                                  .image!,
+                                              fit: BoxFit.cover,
+                                              width: 40,
+                                              height: 40,
+                                            ),
+                                          ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ],
               ),
             ),
             Divider(color: Color(0xff264A5F)),
-            // Vertical Padding after Divider
             vPad20,
+
             // Search Box
-           
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                     Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(
-                    0xff97BECA,
-                  ), // Light gray background for the search box
+                  color: Color(0xff97BECA),
                   borderRadius: BorderRadius.circular(6.0),
                   border: Border.all(color: Color(0xff97BECA)),
                 ),
                 child: TextField(
+                  controller: homeProvider.searchController,
                   cursorColor: Colors.white,
                   style: customTextStyleAuth(
-                    color: Colors.white, fontSize: 14,
-                    fontWeight: FontWeight.w400
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
                   ),
                   decoration: InputDecoration(
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.asset(
                         "assets/icon/search.svg", // Search icon SVG
-                        height: 15, // You can adjust the size as needed
+                        height: 15,
                         width: 15,
                       ),
                     ),
@@ -154,60 +167,93 @@ class HomeScreen extends StatelessWidget {
                       fontSize: 12,
                       color: Color(0xff2765A1),
                       fontWeight: FontWeight.w400,
-                    ), // Hint text inside the search box
-                    border: InputBorder.none, // Removes the default border
-                    contentPadding: EdgeInsets.all(
-                      10,
-                    ), // Padding inside the search box
+                    ),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(10),
                   ),
+                  onChanged: (value) {
+                    homeProvider.searchHunts(
+                      value,
+                    ); // Trigger the search
+                  },
                 ),
               ),
             ),
             vPad20,
-                    Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(homeProvider.huntsList.results!.length, (index){
-                        if(homeProvider.huntsList.results![index].label == "featured" || homeProvider.huntsList.results![index].label == "new" || homeProvider.huntsList.results![index].label == "popular"){
-                          return  Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: FeaturedItem(
-                              imagePath: homeProvider.huntsList.results![index].image.toString(),
-                              categoryName: homeProvider.huntsList.results![index].label.toString(),
-                              title: truncateText(homeProvider.huntsList.results![index].title.toString(),15)  ,
-                              subtitle: homeProvider.huntsList.results![index].prizeAmount.toString(),
+
+            // Show loading indicator if data is still loading
+            homeProvider.isLoading
+                ? Center(child: CircularProgressIndicator())
+                : Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          // Featured Items (For example, based on label like 'featured', 'new', etc.)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
                             ),
-                          );
-                        } else{
-                          return SizedBox();
-                        }
-                      } 
-                      
-                     ,)
-                      
-                      // [
-                        
-                        
-                       
-                      //   hPad10,
-                      //   Expanded(
-                      //     child: FeaturedItem(
-                      //       imagePath: "assets/featured_image_two.png",
-                      //       categoryName: "New",
-                      //       title: "Weekend Special",
-                      //       subtitle: "500",
-                      //       categoryColor: Color(0xffC89800),
-                      //     ),
-                      //   ),
-                      // ],
-                    ),
-                  ),
-                ),
-                vPad10,
-                
-                 Padding(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: List.generate(
+                                  homeProvider.huntsList.results!.length,
+                                  (index) {
+                                    if (homeProvider
+                                                .huntsList
+                                                .results![index]
+                                                .label ==
+                                            "featured" ||
+                                        homeProvider
+                                                .huntsList
+                                                .results![index]
+                                                .label ==
+                                            "new" ||
+                                        homeProvider
+                                                .huntsList
+                                                .results![index]
+                                                .label ==
+                                            "popular") {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: FeaturedItem(
+                                          imagePath: homeProvider
+                                              .huntsList
+                                              .results![index]
+                                              .image
+                                              .toString(),
+                                          categoryName: homeProvider
+                                              .huntsList
+                                              .results![index]
+                                              .label
+                                              .toString(),
+                                          title: truncateText(
+                                            homeProvider
+                                                .huntsList
+                                                .results![index]
+                                                .title
+                                                .toString(),
+                                            15,
+                                          ),
+                                          subtitle: homeProvider
+                                              .huntsList
+                                              .results![index]
+                                              .prizeAmount
+                                              .toString(),
+                                        ),
+                                      );
+                                    } else {
+                                      return SizedBox();
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          vPad10,
+                           Padding(
                    padding: const EdgeInsets.symmetric( horizontal: 8.0),
                    child: Container(
                           height: 150,
@@ -215,7 +261,7 @@ class HomeScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(9),
                             image: DecorationImage(
-                              image: AssetImage("assets/featured_image_three.png"),
+                              image: NetworkImage( homeProvider.filteredHuntsList.results!.first.image.toString()),
                               fit: BoxFit.fitWidth,
                             ),
                           ),
@@ -242,7 +288,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       SizedBox(height: 4),
                                       Text(
-                                        "Treasure Trail Africa",
+                                        homeProvider.filteredHuntsList.results!.first.title.toString(),
                                         style: customTextStyleAuth(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w400,
@@ -276,71 +322,118 @@ class HomeScreen extends StatelessWidget {
                          
                         ),
                  ),
-               
-                vPad10,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "ALL HUNTS",
-                        style: customTextStyleAuth(
-                          color: Color(0xff97BECA),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: (){
-                          
-                        },
-                        child: Text(
-                          "View all",
-                          style: customTextStyleAuth(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff97BECA),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              homeProvider.isLoading ? Center(
-                child: CircularProgressIndicator(),
-              )  : Column(
-                  children: List.generate(homeProvider.huntsList.results!.length, (index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: (){
-                           Navigator.push(context, MaterialPageRoute(builder: (_)=> HuntsDetails(
-                          index: index,
-                        )));
-                        },
-                        child: CustomCard(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "ALL HUNTS",
+                                  style: customTextStyleAuth(
+                                    color: Color(0xff97BECA),
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                // InkWell(
+                                //   onTap: (){
 
-                          title: homeProvider.huntsList.results![index].title.toString(),
-                          players: homeProvider.huntsList.results![index].hunters.toString(),
-                          subtitle: homeProvider.huntsList.results![index].description.toString(),
-                          location: homeProvider.huntsList.results![index].city.toString(),
-                          name: "|",
-                          status: homeProvider.huntsList.results![index].status.toString(),
-                          price: homeProvider.huntsList.results![index].prizeAmount.toString(),
-                          timerText: homeProvider.huntsList.results![index].duration.toString(),
-                          level: homeProvider.huntsList.results![index].difficultyLevel.toString(),
-                          rating: homeProvider.huntsList.results![index].ratings.toString(),
-                        ),
+                                //   },
+                                //   child: Text(
+                                //     "View all",
+                                //     style: customTextStyleAuth(
+                                //       fontSize: 14,
+                                //       fontWeight: FontWeight.w500,
+                                //       color: Color(0xff97BECA),
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                          // List of Hunts matching the search query
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
+                            child: Column(
+                              children: List.generate(
+                                homeProvider.filteredHuntsList.results!.length,
+                                (index) {
+                                  
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  HuntsDetails(index: index),
+                                            ),
+                                          );
+                                        },
+                                        child: CustomCard(
+                                          title: homeProvider
+                                              .filteredHuntsList
+                                              .results![index]
+                                              .title
+                                              .toString(),
+                                          players: homeProvider
+                                              .filteredHuntsList
+                                              .results![index]
+                                              .hunters
+                                              .toString(),
+                                          subtitle: homeProvider
+                                              .filteredHuntsList
+                                              .results![index]
+                                              .description
+                                              .toString(),
+                                          location: homeProvider
+                                              .filteredHuntsList
+                                              .results![index]
+                                              .city
+                                              .toString(),
+                                          name: "|",
+                                          status: homeProvider
+                                              .filteredHuntsList
+                                              .results![index]
+                                              .status
+                                              .toString(),
+                                          price: homeProvider
+                                              .filteredHuntsList
+                                              .results![index]
+                                              .prizeAmount
+                                              .toString(),
+                                          timerText: homeProvider
+                                              .filteredHuntsList
+                                              .results![index]
+                                              .duration
+                                              .toString(),
+                                          level: homeProvider
+                                              .filteredHuntsList
+                                              .results![index]
+                                              .difficultyLevel
+                                              .toString(),
+                                          rating: homeProvider
+                                              .filteredHuntsList
+                                              .results![index]
+                                              .ratings
+                                              .toString(),
+                                        ),
+                                      ),
+                                    );
+                                 
+                                },
+                              ),
+                            ),
+                          ),
+                          vPad70,
+                        ],
                       ),
-                    );
-                  }),
-                ),
-                vPad70,
-                  ],
-                ),
-              ),
-            )
-        
+                    ),
+                  ),
           ],
         ),
       ),

@@ -25,7 +25,7 @@ class _LandingPageState extends State<LandingPage> {
   final List<Widget> _pages = [
     const HomeScreen(), // First page
     const HuntsScreen(), // Second page
-    const MapScreen(), // Third page
+     MapScreen(), // Third page
     const SettingScreen(),
   ];
 

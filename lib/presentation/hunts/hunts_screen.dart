@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hunting_app/common/custom_snackBar.dart';
 import 'package:hunting_app/presentation/home_screen/home_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -54,6 +55,9 @@ class HuntsScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
                         onTap: (){
+                          // if(homeProvider.huntsList.results[index].clues!.isEmpty){
+                          //   CustomSnackbar.show(context, message: "No clues ")
+                          // }
                           Navigator.push(context, MaterialPageRoute(builder: (_)=> HuntsDetails(
                             index: index,
                           )));

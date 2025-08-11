@@ -29,4 +29,29 @@ class SettingProvider extends ChangeNotifier {
     }
     return "";
   }
+  
+  String terms = "N/A";
+  String policy = "N/A";
+
+  Future<void> getTermsApi()async{
+    isLoading = true;
+    notifyListeners();
+    final response = await SettingRepo().getTermsConndition();
+    if(response['content'] != null){
+      terms = response['content'];
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+  
+  Future<void> getPolicyApi()async{
+    isLoading = true;
+    notifyListeners();
+    final response = await SettingRepo().getPrivacyPolicy();
+    if(response['content'] != null){
+      policy = response['content'];
+      isLoading = false;
+      notifyListeners();
+    }
+  }
 }

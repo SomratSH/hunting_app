@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hunting_app/common/custom_button.dart';
 import 'package:hunting_app/common/custom_padding.dart';
+import 'package:hunting_app/common/custom_snackBar.dart';
 import 'package:hunting_app/common/enum.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
@@ -280,7 +281,7 @@ class HuntsDetails extends StatelessWidget {
                                     // Clue Text
                                     SingleChildScrollView(
                                       child: Text(
-                                        "\"${provider.huntsList.results![index!].clues!.first.hint}\"",
+                                        "\"${provider.huntsList.results![index!].clues!.isEmpty ? "N/A"  : "${provider.huntsList.results![index!].clues!.first.hint}"}\"",
                                         textAlign: TextAlign.start,
                                         style: customTextStyleAuth(
                                           fontSize: 14,
@@ -297,13 +298,18 @@ class HuntsDetails extends StatelessWidget {
                               // Button to "View Clues"
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(
+                                    if(provider.huntsList.results![index!].clues!.isEmpty ){
+                                      CustomSnackbar.show(context, message: "No Clues Available", backgroundColor: Colors.red);
+                                    }else{
+                                           Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) =>
                                           AllCluesScreen(index: index),
                                     ),
                                   );
+                                    }
+                               
                                 },
                                 child: DecoratedBox(
                                   decoration: BoxDecoration(

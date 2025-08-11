@@ -146,11 +146,11 @@ final progress = completedClues / totalClues;
                                     clueNumber: i + 1,
                                     title: clues.name.toString(),
                                     description:
-                      "Look for the ancient flame that never dies in the heart \nof South Africa",
+                      clues.riddle.toString(),
                                     status: clues.isLocked == true ?   ClueStatus.locked : clues.status == "active" ? ClueStatus.inProgress : ClueStatus.locked,
                                      onViewClue: () {
                   print("---");
-                  // clues.isFinalClue == ClueStatus.inProgress ?  Navigator.push(context, MaterialPageRoute(builder: (_)=> CluesScreen(index: index,))) : null;
+                   Navigator.push(context, MaterialPageRoute(builder: (_)=> CluesScreen(clues: provider.huntsList.results![index!].clues!,index: i,))) ;
                 },
                                   ),
                   );

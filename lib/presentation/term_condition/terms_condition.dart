@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:hunting_app/common/custom_padding.dart';
 import 'package:hunting_app/common/term_text_widget.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
 import 'package:hunting_app/constant/app_text.dart';
+import 'package:hunting_app/presentation/setting/setting_provider.dart';
 import 'package:hunting_app/presentation/term_condition/privacy_policy.dart';
+import 'package:provider/provider.dart';
 
 class TermsCondition extends StatelessWidget {
   const TermsCondition({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<SettingProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -48,28 +52,37 @@ class TermsCondition extends StatelessWidget {
                 ),
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TermsTextWidget(text: termHeadFirst),
-                      TermsTextWidget(text: termValueFirst),
-                      vPad10,
-                      TermsTextWidget(text: termHeadSecond),
-                      TermsTextWidget(text: termValueSecond),
-                      vPad10,
-                      TermsTextWidget(text: termHeadThird),
-                      TermsTextWidget(text: termValueThird),
-                      vPad10,
-                      TermsTextWidget(text: termHeadFourth),
-                      TermsTextWidget(text: termValueFourth),
-                      vPad10,
-                      TermsTextWidget(text: termHeadFifth),
-                      TermsTextWidget(text: termValueFifth),
-                      vPad10,
-                      TermsTextWidget(text: termHeadSixth),
-                      TermsTextWidget(text: termValueSixth),
-                    ],
-                  ),
+                  child: Html(
+                    style: {
+            "*": Style(
+              color: Colors.white,  // Apply white color to all text
+            ),
+          },
+          data: provider.policy,
+        ),
+                  
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     TermsTextWidget(text: termHeadFirst),
+                  //     TermsTextWidget(text: termValueFirst),
+                  //     vPad10,
+                  //     TermsTextWidget(text: termHeadSecond),
+                  //     TermsTextWidget(text: termValueSecond),
+                  //     vPad10,
+                  //     TermsTextWidget(text: termHeadThird),
+                  //     TermsTextWidget(text: termValueThird),
+                  //     vPad10,
+                  //     TermsTextWidget(text: termHeadFourth),
+                  //     TermsTextWidget(text: termValueFourth),
+                  //     vPad10,
+                  //     TermsTextWidget(text: termHeadFifth),
+                  //     TermsTextWidget(text: termValueFifth),
+                  //     vPad10,
+                  //     TermsTextWidget(text: termHeadSixth),
+                  //     TermsTextWidget(text: termValueSixth),
+                  //   ],
+                  // ),
                 ),
               ),
             ),

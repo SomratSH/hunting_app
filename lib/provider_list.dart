@@ -10,6 +10,6 @@ class ProviderList {
         ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (_)=> ProfileProvider()..getProfile()),
         ChangeNotifierProvider(create: (_)=> HomeProvider()..getHunts()),
-        ChangeNotifierProvider(create: (_)=> SettingProvider()..getPlanList())
+        ChangeNotifierProvider(create: (_)=> SettingProvider()..getPlanList()..getTermsApi()..getPolicyApi())
       ];
 }
