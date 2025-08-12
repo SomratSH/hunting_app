@@ -38,4 +38,9 @@ class HomeProvider extends ChangeNotifier {
     }
     notifyListeners(); // Notify listeners to update the UI
   }
+
+
+  Future<void> readCluesApi(String id)async{
+    final response = await HuntsRepo().readClue(id);
+  }
 }

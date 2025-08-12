@@ -1,8 +1,10 @@
 class AppUrls {
   AppUrls();
 
-  static const String baseUrl = 'http://10.10.13.19:8000/api/v1';
-  static const String imageUrl = "http://10.10.13.19:8000";
+  // static const String baseUrl = 'http://10.10.13.19:8000/api/v1';
+  
+  static const String baseUrl = 'https://sound-mite-exotic.ngrok-free.app/api/v1';
+  static const String imageUrl = "https://sound-mite-exotic.ngrok-free.app";
 
   //sign up urls
   static const String signUp = '/accounts/signup/step1/';
@@ -30,6 +32,8 @@ class AppUrls {
   //core term and policy
   static String termConditonUrl = "/cores/terms-conditions/";
   static String privacyPolicy = "/cores/privacy-policy/";
+
+  static String clueRead = "/clues/";
 
   
 

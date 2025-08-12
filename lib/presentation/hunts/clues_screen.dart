@@ -98,7 +98,7 @@ class _CluesScreenState extends State<CluesScreen> {
                     child: Column(
                       children: [
                         Text(
-                          "Clue 1 of ${widget.clues!.length}",
+                          "Clue ${widget.index! + 1} of ${widget.clues!.length}",
                           style: customTextStyleAuth(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -142,12 +142,12 @@ class _CluesScreenState extends State<CluesScreen> {
               Padding(
                 padding: EdgeInsets.all(16),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(data[widget.index!].clues.length, (
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: List.generate(widget.clues!.length, (
                     i,
                   ) {
-                    final step = data[widget.index!].clues[i];
-                    return _buildProgressStep(i + 1, step.title, step.status);
+                    final step = widget.clues![i];
+                    return _buildProgressStep(i + 1, step.name.toString(), step.status.toString());
                   }),
 
                   // [
@@ -186,18 +186,18 @@ class _CluesScreenState extends State<CluesScreen> {
                       ),
                     ),
 
-                    Container(
-                      height: 200,
-                      width: double.infinity,
+                    // Container(
+                    //   height: 200,
+                    //   width: double.infinity,
 
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: AssetImage("assets/clues_pic.png"),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(10),
+                    //     image: DecorationImage(
+                    //       image: AssetImage("assets/clues_pic.png"),
+                    //       fit: BoxFit.fill,
+                    //     ),
+                    //   ),
+                    // ),
 
                     Container(
                       width: double.infinity,
@@ -280,7 +280,7 @@ class _CluesScreenState extends State<CluesScreen> {
                                       width: double.infinity,
                                       height: double.infinity,
                                       child: GoogleMap(
-                                        
+                                        mapType: MapType.satellite,
                                         circles: _circles,
                                         markers: {
                                           Marker(
@@ -491,7 +491,7 @@ class _CluesScreenState extends State<CluesScreen> {
                                           left: 28.0,
                                         ),
                                         child: Text(
-                                          "Look for the annual food festival where\nSouth African braai culture comes alive.",
+                                          widget.clues![widget.index!].hint.toString(),
                                           style: customTextStyleAuth(
                                             color: blue2,
                                             fontSize: 13,
@@ -528,7 +528,7 @@ class _CluesScreenState extends State<CluesScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => Scan(index: widget.index!),
+                              builder: (_) => Scan(index: widget.index!, clues: widget.clues),
                             ),
                           );
                         },
@@ -559,7 +559,7 @@ class _CluesScreenState extends State<CluesScreen> {
     );
   }
 
-  Widget _buildProgressStep(int number, String label, ClueStatus status) {
+  Widget _buildProgressStep(int number, String label, String status) {
     Color getStatusColor() {
       switch (status) {
         case ClueStatus.completed:

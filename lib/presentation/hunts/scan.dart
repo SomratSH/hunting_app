@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hunting_app/application/hunts/model/hunts_model.dart';
 import 'package:hunting_app/common/custom_button_with_svg.dart';
 import 'package:hunting_app/common/custom_padding.dart';
 import 'package:hunting_app/common/enum.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
 import 'package:hunting_app/constant/app_const.dart';
+import 'package:hunting_app/presentation/home_screen/home_provider.dart';
 import 'package:hunting_app/presentation/hunts/clam_price.dart';
 import 'package:hunting_app/presentation/hunts/scan_success.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/common.dart';
 import 'qr_scanner.dart';
 
 class Scan extends StatelessWidget {
-  int ?index;
-  Scan({super.key, this.index});
+  int? index;
+  List<Clues> ? clues;
+  Scan({super.key, this.index, this.clues});
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<HomeProvider>();
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -98,41 +103,66 @@ class Scan extends StatelessWidget {
                         svgIcon: "assets/icon/scan.svg",
                         color: blue3,
                         onPressed: () async {
-                        
+
+                            final scannedCode = await Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => QRViewExample(lat: clues![index!].qrCode!.latitude!.toDouble(), long: clues![index!].qrCode!.longitude!.toDouble(),)),
+                          );
                           // Navigator.push(context, MaterialPageRoute(builder: (_)=> ScanSuccess()));
-                        // Navigator.push(context, createSlideRoute(ScanSuccess()));
-                     data[index!].clues.last.status == ClueStatus.inProgress ?  Navigator.push(context, MaterialPageRoute(builder: (_)=> ClamPrice())):   Navigator.push(
-  context,
-  PageRouteBuilder(
-    transitionDuration: Duration(milliseconds: 500),
-    pageBuilder: (_, __, ___) => ScanSuccess(), // Replace with your target screen
-    transitionsBuilder: (_, animation, __, child) {
-      final offsetTween = Tween(
-        begin: Offset(0.0, 1.0), // Start from bottom
-        end: Offset.zero,        // End at center
-      ).chain(CurveTween(curve: Curves.easeOutBack));
+                          // Navigator.push(context, createSlideRoute(ScanSuccess()));
+                          // data[index!].clues.last.status ==
+                          //         ClueStatus.inProgress
+                          //     ? Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (_) => ClamPrice(),
+                          //         ),
+                          //       )
+                          //     : Navigator.push(
+                          //         context,
+                          //         PageRouteBuilder(
+                          //           transitionDuration: Duration(
+                          //             milliseconds: 500,
+                          //           ),
+                          //           pageBuilder: (_, __, ___) =>
+                          //               ScanSuccess(), // Replace with your target screen
+                          //           transitionsBuilder:
+                          //               (_, animation, __, child) {
+                          //                 final offsetTween =
+                          //                     Tween(
+                          //                       begin: Offset(
+                          //                         0.0,
+                          //                         1.0,
+                          //                       ), // Start from bottom
+                          //                       end: Offset
+                          //                           .zero, // End at center
+                          //                     ).chain(
+                          //                       CurveTween(
+                          //                         curve: Curves.easeOutBack,
+                          //                       ),
+                          //                     );
 
-      final fadeTween = Tween<double>(
-        begin: 0.0,
-        end: 1.0,
-      );
+                          //                 final fadeTween = Tween<double>(
+                          //                   begin: 0.0,
+                          //                   end: 1.0,
+                          //                 );
 
-      return SlideTransition(
-        position: animation.drive(offsetTween),
-        child: FadeTransition(
-          opacity: animation.drive(fadeTween),
-          child: child,
-        ),
-      );
-    },
-  ),
-);
+                          //                 return SlideTransition(
+                          //                   position: animation.drive(
+                          //                     offsetTween,
+                          //                   ),
+                          //                   child: FadeTransition(
+                          //                     opacity: animation.drive(
+                          //                       fadeTween,
+                          //                     ),
+                          //                     child: child,
+                          //                   ),
+                          //                 );
+                          //               },
+                          //         ),
+                          //       );
 
-
-                          // final scannedCode = await Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (_) => QRViewExample()),
-                          // );
+                        
 
                           // if (scannedCode != null) {
                           //   // Handle scanned QR code here (show dialog, navigate, etc.)

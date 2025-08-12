@@ -46,9 +46,10 @@ class ClueCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xff111827CC),
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color:statusColor )
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

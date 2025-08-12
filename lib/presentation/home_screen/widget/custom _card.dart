@@ -51,7 +51,7 @@ Widget build(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                   truncateText(title, 25) ,
+                   truncateText(title, 20) ,
                     overflow: TextOverflow.ellipsis,
                     style: customTextStyleAuth(
                       fontSize: 16,

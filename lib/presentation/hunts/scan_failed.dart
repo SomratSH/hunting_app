@@ -4,6 +4,7 @@ import 'package:hunting_app/common/custom_button.dart';
 import 'package:hunting_app/common/custom_padding.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
+import 'package:hunting_app/presentation/landing_page/landing_page.dart';
 
 class ScanFailed extends StatelessWidget {
   const ScanFailed({super.key});
@@ -77,9 +78,12 @@ class ScanFailed extends StatelessWidget {
           vPad20,
           Row(
             children: [
-              Expanded(child: CustomButton(buttonText: "Back to clue", icon: Icons.arrow_back,color: blue2,)),
+              Expanded(child: CustomButton(buttonText: "Back to clue", icon: Icons.arrow_back,color: blue2,onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (_)=> LandingPage()));
+
+              },)),
               hPad10,
-              Expanded(child: CustomButton(buttonText: "Back to clue", icon: Icons.redo,color: Colors.white,  textColor: blue2,)),
+              Expanded(child: CustomButton(buttonText: "Try Again", icon: Icons.redo,color: Colors.white,  textColor: blue2,onPressed: ()=>Navigator.pop(context),)),
             ],
           )
 

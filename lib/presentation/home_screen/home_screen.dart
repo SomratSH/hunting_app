@@ -25,6 +25,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: appBgColor,
       body: SafeArea(
         child: Column(
+      
           children: [
             // Header Row with Logo, Notification, and Profile
             Padding(
@@ -187,6 +188,7 @@ class HomeScreen extends StatelessWidget {
                 : Expanded(
                     child: SingleChildScrollView(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Featured Items (For example, based on label like 'featured', 'new', etc.)
                           Padding(

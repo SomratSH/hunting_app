@@ -147,10 +147,13 @@ final progress = completedClues / totalClues;
                                     title: clues.name.toString(),
                                     description:
                       clues.riddle.toString(),
-                                    status: clues.isLocked == true ?   ClueStatus.locked : clues.status == "active" ? ClueStatus.inProgress : ClueStatus.locked,
+                                    status: clues.isLocked == true ?   ClueStatus.locked : clues.status == "pending" ? ClueStatus.inProgress :   clues.status == "completed" ? ClueStatus.completed : ClueStatus.locked,
                                      onViewClue: () {
                   print("---");
-                   Navigator.push(context, MaterialPageRoute(builder: (_)=> CluesScreen(clues: provider.huntsList.results![index!].clues!,index: i,))) ;
+                  provider.readCluesApi(clues.id.toString())..then((e){
+                        Navigator.push(context, MaterialPageRoute(builder: (_)=> CluesScreen(clues: provider.huntsList.results![index!].clues!,index: i,))) ;
+                  });
+               
                 },
                                   ),
                   );

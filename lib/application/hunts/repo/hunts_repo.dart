@@ -12,4 +12,13 @@ class HuntsRepo {
     );
     return response;
   }
+
+  Future<Map<String, dynamic>> readClue(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final response = await ApiService().getData(
+      AppUrls.clueRead + id,
+      authToken: prefs.getString('authToken'),
+    );
+    return response;
+  }
 }

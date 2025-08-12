@@ -144,7 +144,7 @@ class HuntsDetails extends StatelessWidget {
                         iconPath: "assets/icon/award.svg", // Custom icon path
                         duration:
                             "${data[index!].price.toString()}", // Custom duration value
-                        title: "Reward Points", // Custom title
+                        title: "Cash Price", // Custom title
                       ),
                     ),
 
@@ -343,12 +343,17 @@ class HuntsDetails extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: CustomButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => CluesScreen(index: index),
-                                  ),
-                                );
+                               if(provider.huntsList.results![index!].clues!.isEmpty ){
+                                      CustomSnackbar.show(context, message: "No Clues Available", backgroundColor: Colors.red);
+                                    }else{
+                                           Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          AllCluesScreen(index: index),
+                                    ),
+                                  );
+                                    }
                               },
                               buttonText: "Start Hunt",
                               borderRadius: 10,
