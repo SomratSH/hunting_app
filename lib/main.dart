@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hunting_app/presentation/hunts/clam_price.dart';
+import 'package:hunting_app/presentation/hunts/price_clam_sucess.dart';
 import 'package:hunting_app/presentation/splash_screen/splash_screen.dart';
 import 'package:hunting_app/provider_list.dart';
 import 'package:provider/provider.dart';

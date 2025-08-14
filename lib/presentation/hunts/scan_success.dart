@@ -6,7 +6,8 @@ import 'package:hunting_app/constant/app_colors.dart';
 import 'package:hunting_app/presentation/landing_page/landing_page.dart';
 
 class ScanSuccess extends StatelessWidget {
-  const ScanSuccess({super.key});
+  final int num;
+  const  ScanSuccess({super.key, required this.num});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +78,7 @@ class ScanSuccess extends StatelessWidget {
                     ),
                     vPad5,
                     Text(
-                      "You've successfully unlocked\nthe 2nd clue in your treasure\nhunt adventure!",
+                      "You've successfully unlocked\nthe $num number clue in your treasure\nhunt adventure!",
                       style: customTextStyleAuth(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,

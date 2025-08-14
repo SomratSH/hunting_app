@@ -143,7 +143,10 @@ class HuntsDetails extends StatelessWidget {
                       child: CustomDurationCard(
                         iconPath: "assets/icon/award.svg", // Custom icon path
                         duration:
-                            "${data[index!].price.toString()}", // Custom duration value
+                            "${provider
+                                  .huntsList
+                                  .results![index!]
+                                  .prizeAmount}", // Custom duration value
                         title: "Cash Price", // Custom title
                       ),
                     ),
@@ -281,7 +284,7 @@ class HuntsDetails extends StatelessWidget {
                                     // Clue Text
                                     SingleChildScrollView(
                                       child: Text(
-                                        "\"${provider.huntsList.results![index!].clues!.isEmpty ? "N/A"  : "${provider.huntsList.results![index!].clues!.first.hint}"}\"",
+                                        "\"${provider.huntsList.results![index!].clues!.isEmpty ? "N/A" : "${provider.huntsList.results![index!].clues!.first.hint}"}\"",
                                         textAlign: TextAlign.start,
                                         style: customTextStyleAuth(
                                           fontSize: 14,
@@ -298,18 +301,27 @@ class HuntsDetails extends StatelessWidget {
                               // Button to "View Clues"
                               InkWell(
                                 onTap: () {
-                                    if(provider.huntsList.results![index!].clues!.isEmpty ){
-                                      CustomSnackbar.show(context, message: "No Clues Available", backgroundColor: Colors.red);
-                                    }else{
-                                           Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          AllCluesScreen(index: index),
-                                    ),
-                                  );
-                                    }
-                               
+                                  if (provider
+                                      .huntsList
+                                      .results![index!]
+                                      .clues!
+                                      .isEmpty) {
+                                    CustomSnackbar.show(
+                                      context,
+                                      message: "No Clues Available",
+                                      backgroundColor: Colors.red,
+                                    );
+                                  } else {
+                                    
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            AllCluesScreen(index: index),
+                                      ),
+                                    );
+                                  }
                                 },
                                 child: DecoratedBox(
                                   decoration: BoxDecoration(
@@ -337,23 +349,41 @@ class HuntsDetails extends StatelessWidget {
                     ),
                     vPad5,
                     // ignore: unrelated_type_equality_checks
-                    data[index!].status == ClueStatus.completed
+                    provider
+                                  .huntsList
+                                  .results![index!]
+                                  .clues!.first.status == ClueStatus.completed.name.toString()
                         ? SizedBox()
                         : Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CustomButton(
                               onPressed: () {
-                               if(provider.huntsList.results![index!].clues!.isEmpty ){
-                                      CustomSnackbar.show(context, message: "No Clues Available", backgroundColor: Colors.red);
-                                    }else{
-                                           Navigator.push(
+                                if (provider
+                                    .huntsList
+                                    .results![index!]
+                                    .clues!
+                                    .isEmpty) {
+                                  CustomSnackbar.show(
+                                    context,
+                                    message: "No Clues Available",
+                                    backgroundColor: Colors.red,
+                                  );
+                                } else {
+                                  provider.readCluesApi(
+                                      provider.huntsList.results![index!].id
+                                          .toString(),
+                                    )..then((e) {
+
+                                      Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) =>
                                           AllCluesScreen(index: index),
                                     ),
                                   );
-                                    }
+                                    });
+                                  
+                                }
                               },
                               buttonText: "Start Hunt",
                               borderRadius: 10,

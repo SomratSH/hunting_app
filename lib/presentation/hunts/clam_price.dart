@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hunting_app/common/custom_button.dart';
@@ -5,7 +7,11 @@ import 'package:hunting_app/common/custom_padding.dart';
 import 'package:hunting_app/common/custom_snackBar.dart';
 import 'package:hunting_app/common/text_style_custom.dart';
 import 'package:hunting_app/constant/app_colors.dart';
+import 'package:hunting_app/presentation/home_screen/home_provider.dart';
+import 'package:hunting_app/presentation/hunts/price_clam_sucess.dart';
 import 'package:hunting_app/presentation/landing_page/landing_page.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/custom_textfield_bg.dart';
 
@@ -17,9 +23,12 @@ class ClamPrice extends StatefulWidget {
 }
 
 class _ClamPriceState extends State<ClamPrice> {
+  TextEditingController codeController = TextEditingController();
+  
   bool isAccpet = false;
   @override
   Widget build(BuildContext context) {
+    final proivder = context.watch<HomeProvider>();
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -98,33 +107,37 @@ class _ClamPriceState extends State<ClamPrice> {
                           color: Colors.transparent,
                           border: Border.all(color: text2),
                         ),
-                        child: Center(
+                        child: proivder.imageFile != null ? Image.file(File(proivder.imageFile!.path), height: 200,width: double.infinity,fit: BoxFit.fill,) :
+                        Center(
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/icon/circum_camera.svg",
-                                ),
-                                Text(
-                                  "Click to upload photo",
-                                  style: customTextStyleAuth(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: textLightColor,
+                            child: InkWell(
+                              onTap: ()=> proivder.pickImage(),
+                              child: Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icon/circum_camera.svg",
                                   ),
-                                ),
-                                vPad5,
-                                Text(
-                                  "PNG, JPG upto 10 mb",
-                                  style: customTextStyleAuth(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: text2,
+                                  Text(
+                                    "Click to upload photo",
+                                    style: customTextStyleAuth(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: textLightColor,
+                                    ),
                                   ),
-                                ),
-                                vPad5,
-                              ],
+                                  vPad5,
+                                  Text(
+                                    "PNG, JPG upto 10 mb",
+                                    style: customTextStyleAuth(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: text2,
+                                    ),
+                                  ),
+                                  vPad5,
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -147,7 +160,7 @@ class _ClamPriceState extends State<ClamPrice> {
                             ),
                             vPad10,
                             CustomTextfieldBg(
-                              controller: TextEditingController(),
+                              controller: codeController,
                               hintText: "Enter Serial Number",
                               backgroundColor: Color(0xff767781),
                               borderRadius: 5,
@@ -186,14 +199,17 @@ class _ClamPriceState extends State<ClamPrice> {
 
                                     Padding(
                                       padding: const EdgeInsets.only(left: 50),
-                                      child: Text(
-                                        "By submitting, you agree to our prize claim policy and\nverification process.",
-                                        style: customTextStyleAuth(
-                                          color: text2,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 11,
+                                      child: Flexible(
+                                        child: Text(
+                                          "By submitting, you agree to our prize claim policy and\nverification process.",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: customTextStyleAuth(
+                                            color: text2,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 11,
+                                          ),
+                                          textAlign: TextAlign.start,
                                         ),
-                                        textAlign: TextAlign.start,
                                       ),
                                     ),
                                   ],
@@ -208,32 +224,44 @@ class _ClamPriceState extends State<ClamPrice> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: InkWell(
-                        onTap: () {
-                          isAccpet == true
-                              ? Navigator.push(
+                        onTap: () async{
+                          // isAccpet == true
+                          //     ? Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (_) => PriceClamSucess(),
+                          //         ),
+                          //       )
+                          //     : CustomSnackbar.show(
+                          //         context,
+                          //         message: "Accept Terms and Condition",
+                          //         backgroundColor: blue1,
+                          //       );
+                          if (isAccpet == true) {
+                            final response = await proivder.clamPriceApi(codeController.value.text);
+                            if(response["message"] != null){
+                              CustomSnackbar.show(
+                              context,
+                              message: response["message"],
+                              backgroundColor: blue1,
+                            );
+                            Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => LandingPage(),
+                                    builder: (_) => PriceClamSucess(),
                                   ),
-                                )
-                              : CustomSnackbar.show(
-                                  context,
-                                  message: "Accept Terms and Condition",
-                                  backgroundColor: blue1
-                                 
-                                
                                 );
-                          if (isAccpet == true) {
-  CustomSnackbar.show(
-    context,
-    message: "Successfully Claim Price",
-    backgroundColor: blue1,
-  );
-}
-
-                          
+                            }else if(response["error"] != null){
+                                 CustomSnackbar.show(
+                              context,
+                              message: response["error"],
+                              backgroundColor: Colors.red,
+                            );
+                            }
+                           
+                          }
                         },
-                        child: CustomButton(
+                        child: proivder.isLoading ? Center(child: CircularProgressIndicator(),) : CustomButton(
                           buttonText: "Claim your prize",
                           color: blue3,
                         ),

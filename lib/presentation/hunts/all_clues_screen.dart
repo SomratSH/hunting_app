@@ -17,13 +17,12 @@ class AllCluesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalClues = data[index!].clues.length;
-final completedClues = data[index!]
-    .clues
-    .where((clue) => clue.status == ClueStatus.completed)
+    final provider = context.watch<HomeProvider>();
+    final totalClues = provider.cluesList.length;
+final completedClues = provider.cluesList
+    .where((clue) => clue.status == ClueStatus.completed.name.toString())
     .length;
 final progress = completedClues / totalClues;
-    final provider = context.watch<HomeProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
       body: SafeArea(
@@ -110,7 +109,7 @@ final progress = completedClues / totalClues;
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            '${completedClues}/${provider.huntsList.results![index!].clues!.length} clues solved',
+                            '$completedClues/${provider.cluesList.length} clues solved',
                             style: customTextStyleAuth(
                               fontSize: 11,
                               fontWeight: FontWeight.w400,
@@ -138,8 +137,8 @@ final progress = completedClues / totalClues;
               vPad10,
              
               Column(
-                children: List.generate(provider.huntsList.results![index!].clues!.length, (i){
-                  final clues = provider.huntsList.results![index!].clues![i];
+                children: List.generate(provider.cluesList.length, (i){
+                  final clues = provider.cluesList[i];
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ClueCard(
@@ -147,12 +146,12 @@ final progress = completedClues / totalClues;
                                     title: clues.name.toString(),
                                     description:
                       clues.riddle.toString(),
-                                    status: clues.isLocked == true ?   ClueStatus.locked : clues.status == "pending" ? ClueStatus.inProgress :   clues.status == "completed" ? ClueStatus.completed : ClueStatus.locked,
+                                    status: clues.status == "locked" ?   ClueStatus.locked : clues.status == "pending"  ? ClueStatus.pending :  clues.status == "inprogress" ?  ClueStatus.inProgress  : clues.status == "completed" ? ClueStatus.completed : ClueStatus.locked,
                                      onViewClue: () {
                   print("---");
-                  provider.readCluesApi(clues.id.toString())..then((e){
-                        Navigator.push(context, MaterialPageRoute(builder: (_)=> CluesScreen(clues: provider.huntsList.results![index!].clues!,index: i,))) ;
-                  });
+                
+                        Navigator.push(context, MaterialPageRoute(builder: (_)=> CluesScreen(clues: provider.cluesList,index: i,))) ;
+                  
                
                 },
                                   ),

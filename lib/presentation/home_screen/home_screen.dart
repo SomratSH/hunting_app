@@ -104,10 +104,8 @@ class HomeScreen extends StatelessWidget {
                                     padding: const EdgeInsets.all(8.0),
                                     child:
                                         profileProvider
-                                            .profileModel
-                                            .data!
-                                            .image!
-                                            .isEmpty
+                                            .profileModel == null 
+                                            
                                         ? SvgPicture.asset(
                                             "assets/icon/profile.svg", // SVG asset path
                                             height:
@@ -220,30 +218,33 @@ class HomeScreen extends StatelessWidget {
                                             "popular") {
                                       return Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: FeaturedItem(
-                                          imagePath: homeProvider
-                                              .huntsList
-                                              .results![index]
-                                              .image
-                                              .toString(),
-                                          categoryName: homeProvider
-                                              .huntsList
-                                              .results![index]
-                                              .label
-                                              .toString(),
-                                          title: truncateText(
-                                            homeProvider
+                                        child: InkWell(
+                                          onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>   HuntsDetails(index: index),)),
+                                          child: FeaturedItem(
+                                            imagePath: homeProvider
                                                 .huntsList
                                                 .results![index]
-                                                .title
+                                                .image
                                                 .toString(),
-                                            15,
+                                            categoryName: homeProvider
+                                                .huntsList
+                                                .results![index]
+                                                .label
+                                                .toString(),
+                                            title: truncateText(
+                                              homeProvider
+                                                  .huntsList
+                                                  .results![index]
+                                                  .title
+                                                  .toString(),
+                                              15,
+                                            ),
+                                            subtitle: homeProvider
+                                                .huntsList
+                                                .results![index]
+                                                .prizeAmount
+                                                .toString(),
                                           ),
-                                          subtitle: homeProvider
-                                              .huntsList
-                                              .results![index]
-                                              .prizeAmount
-                                              .toString(),
                                         ),
                                       );
                                     } else {

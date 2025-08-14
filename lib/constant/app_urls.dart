@@ -34,6 +34,12 @@ class AppUrls {
   static String privacyPolicy = "/cores/privacy-policy/";
 
   static String clueRead = "/clues/";
+  
+  static String unlockClue = "/clues/unlock/";
+
+  static String submitRating = "/ratings/";
+
+  static String  clamPrice = "/claims/create/";
 
   
 

@@ -19,6 +19,8 @@ class ProfileProvider extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     } else {
+      isLoading = false;
+      notifyListeners();
       debugPrint("No profile data found");
     }
   }

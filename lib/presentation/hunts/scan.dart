@@ -106,7 +106,7 @@ class Scan extends StatelessWidget {
 
                             final scannedCode = await Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => QRViewExample(lat: clues![index!].qrCode!.latitude!.toDouble(), long: clues![index!].qrCode!.longitude!.toDouble(),)),
+                            MaterialPageRoute(builder: (_) => QRViewExample(lastClue: clues![index!].isFinalClue!,  lat: clues![index!].qrCode!.latitude!.toDouble(), long: clues![index!].qrCode!.longitude!.toDouble(),num: index! + 1,)),
                           );
                           // Navigator.push(context, MaterialPageRoute(builder: (_)=> ScanSuccess()));
                           // Navigator.push(context, createSlideRoute(ScanSuccess()));

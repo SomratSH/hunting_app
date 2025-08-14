@@ -4,8 +4,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hunting_app/application/hunts/model/hunts_model.dart';
 import 'package:hunting_app/common/custom_padding.dart';
 import 'package:hunting_app/constant/app_colors.dart';
+import 'package:hunting_app/presentation/home_screen/home_provider.dart';
+import 'package:hunting_app/presentation/home_screen/widget/custom%20_card.dart';
 import 'package:hunting_app/presentation/hunts/scan.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:provider/provider.dart';
 import '../../common/enum.dart';
 import '../../common/text_style_custom.dart';
 import '../../constant/app_const.dart';
@@ -22,8 +25,8 @@ class CluesScreen extends StatefulWidget {
 
 class _CluesScreenState extends State<CluesScreen> {
   bool isHint = false;
- final Set<Circle> _circles = Set();
-    void _addCircle() {
+  final Set<Circle> _circles = Set();
+  void _addCircle() {
     final clue = widget.clues![widget.index!];
     final LatLng position = LatLng(
       clue.qrCode!.latitude!.toDouble(),
@@ -41,8 +44,9 @@ class _CluesScreenState extends State<CluesScreen> {
       ),
     );
   }
-  String _address = "Fetching address..."; 
-  
+
+  String _address = "Fetching address...";
+
   // Function to get address from coordinates
   Future<void> _getAddress() async {
     final clue = widget.clues![widget.index!];
@@ -51,13 +55,17 @@ class _CluesScreenState extends State<CluesScreen> {
 
     try {
       // Get the address from the coordinates
-      List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        latitude,
+        longitude,
+      );
       if (placemarks.isNotEmpty) {
         // Get the first placemark
         Placemark placemark = placemarks[0];
         setState(() {
           // Concatenate address components
-          _address = "${placemark.name}, ${placemark.locality}, ${placemark.country}";
+          _address =
+              "${placemark.name}, ${placemark.locality}, ${placemark.country}";
         });
       }
     } catch (e) {
@@ -67,10 +75,8 @@ class _CluesScreenState extends State<CluesScreen> {
     }
   }
 
-
   @override
   void initState() {
-
     // TODO: implement initState
     super.initState();
     _addCircle();
@@ -79,6 +85,7 @@ class _CluesScreenState extends State<CluesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<HomeProvider>();
     return Scaffold(
       backgroundColor: appBgColor,
 
@@ -106,7 +113,7 @@ class _CluesScreenState extends State<CluesScreen> {
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          "\"${widget.clues![widget.index!].name}\"",
+                          "\"${truncateText(widget.clues![widget.index!].name.toString(), 30)}\"",
                           style: customTextStyleAuth(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -141,20 +148,24 @@ class _CluesScreenState extends State<CluesScreen> {
               // Progress indicators
               Padding(
                 padding: EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: List.generate(widget.clues!.length, (
-                    i,
-                  ) {
-                    final step = widget.clues![i];
-                    return _buildProgressStep(i + 1, step.name.toString(), step.status.toString());
-                  }),
+                child: SingleChildScrollView(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(widget.clues!.length, (i) {
+                      final step = widget.clues![i];
+                      return _buildProgressStep(
+                        i + 1,
+                        step.name.toString(),
+                        step.status.toString(),
+                      );
+                    }),
 
-                  // [
-                  //   _buildProgressStep(1, 'The Secret St...', true),
-                  //   _buildProgressStep(2, 'Hidden Trea...', true),
-                  //   _buildProgressStep(3, 'Final Goal', false),
-                  // ],
+                    // [
+                    //   _buildProgressStep(1, 'The Secret St...', true),
+                    //   _buildProgressStep(2, 'Hidden Trea...', true),
+                    //   _buildProgressStep(3, 'Final Goal', false),
+                    // ],
+                  ),
                 ),
               ),
 
@@ -198,7 +209,6 @@ class _CluesScreenState extends State<CluesScreen> {
                     //     ),
                     //   ),
                     // ),
-
                     Container(
                       width: double.infinity,
 
@@ -303,7 +313,7 @@ class _CluesScreenState extends State<CluesScreen> {
                                             ),
                                           ),
                                         },
-                                        
+
                                         initialCameraPosition: CameraPosition(
                                           zoom: 18,
 
@@ -491,7 +501,8 @@ class _CluesScreenState extends State<CluesScreen> {
                                           left: 28.0,
                                         ),
                                         child: Text(
-                                          widget.clues![widget.index!].hint.toString(),
+                                          widget.clues![widget.index!].hint
+                                              .toString(),
                                           style: customTextStyleAuth(
                                             color: blue2,
                                             fontSize: 13,
@@ -528,7 +539,10 @@ class _CluesScreenState extends State<CluesScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => Scan(index: widget.index!, clues: widget.clues),
+                              builder: (_) => Scan(
+                                index: widget.index!,
+                                clues: widget.clues,
+                              ),
                             ),
                           );
                         },
@@ -561,32 +575,36 @@ class _CluesScreenState extends State<CluesScreen> {
 
   Widget _buildProgressStep(int number, String label, String status) {
     Color getStatusColor() {
-      switch (status) {
-        case ClueStatus.completed:
-          return textLightColor;
-        case ClueStatus.inProgress:
-          return blue3;
-        case ClueStatus.locked:
-        default:
-          return const Color.fromARGB(255, 143, 143, 143);
+      if (status == ClueStatus.completed.name.toString()) {
+        return textLightColor;
+      } else if (status == ClueStatus.pending.name.toString()) {
+        return blue3;
+      } else if (status == ClueStatus.inProgress.name.toString()) {
+        return blue3;
+      } else if (status == ClueStatus.locked.name.toString()) {
+        return const Color.fromARGB(255, 143, 143, 143);
+      } else {
+        return const Color.fromARGB(255, 143, 143, 143);
       }
     }
 
     Widget getStatusIcon() {
-      switch (status) {
-        case ClueStatus.completed:
-          return Icon(Icons.check_box, color: Colors.green);
-        case ClueStatus.inProgress:
-          return Text(
-            number.toString(),
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          );
-        case ClueStatus.locked:
-        default:
-          return SvgPicture.asset("assets/icon/lock.svg");
+      if (status == ClueStatus.completed.name.toString()) {
+        return Icon(Icons.check_box, color: Colors.green);
+        
+      } else if (status == ClueStatus.pending.name.toString() ||
+          status == ClueStatus.inProgress.name.toString()) {
+        return Text(
+          number.toString(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      } else if (status == ClueStatus.locked.name.toString()) {
+        return SvgPicture.asset("assets/icon/lock.svg");
+      } else {
+       return SvgPicture.asset("assets/icon/lock.svg");
       }
     }
 
@@ -612,11 +630,11 @@ class _CluesScreenState extends State<CluesScreen> {
                 : const SizedBox.shrink(),
           ],
         ),
-        vPad5,
+        vPad10,
         Text(
-          label,
+          truncateText(label.toString(), 10),
           style: TextStyle(
-            color: status == ClueStatus.locked
+            color: status == ClueStatus.locked.toString()
                 ? Colors.grey[400]
                 : Colors.white,
             fontSize: 12,

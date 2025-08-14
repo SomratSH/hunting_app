@@ -35,6 +35,10 @@ class ClueCard extends StatelessWidget {
         statusColor = inProgess;
         statusText = "In Progress";
         break;
+      case ClueStatus.pending:
+        statusColor = inProgess;
+        statusText = "In Progress";
+        break;
       case ClueStatus.locked:
         statusColor = text2;
         statusText = "Locked";
@@ -142,7 +146,7 @@ class ClueCard extends StatelessWidget {
               ),
             vPad10,
             /// View Clue Button (only for inProgress)
-            // if (status == ClueStatus.inProgress && onViewClue != null && ClueStatus.locked == status)
+            if (status == ClueStatus.inProgress || status == ClueStatus.pending)
 
             InkWell(
               onTap: onViewClue,

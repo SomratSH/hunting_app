@@ -58,6 +58,8 @@ class HuntsScreen extends StatelessWidget {
                           // if(homeProvider.huntsList.results[index].clues!.isEmpty){
                           //   CustomSnackbar.show(context, message: "No clues ")
                           // }
+
+                          homeProvider.updateHunts(homeProvider.huntsList.results![index]);
                           Navigator.push(context, MaterialPageRoute(builder: (_)=> HuntsDetails(
                             index: index,
                           )));

@@ -61,6 +61,7 @@ class ApiService {
     Map<String, String>? queryParams,
     File? image,
     String? authToken,
+    String imageParamNam = "image",
   }) async {
     try {
       Uri uri = Uri.parse('${AppUrls.baseUrl}$endpoint');
@@ -81,7 +82,7 @@ class ApiService {
         });
 
         var fileStream = http.MultipartFile(
-          'image',
+         imageParamNam,
           image.readAsBytes().asStream(),
           image.lengthSync(),
           filename: image.uri.pathSegments.last,

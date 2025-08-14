@@ -3,16 +3,20 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hunting_app/constant/app_colors.dart';
+import 'package:hunting_app/presentation/home_screen/home_provider.dart';
+import 'package:hunting_app/presentation/hunts/clam_price.dart';
 import 'package:hunting_app/presentation/hunts/scan_failed.dart';
 import 'package:hunting_app/presentation/hunts/scan_success.dart';
+import 'package:provider/provider.dart';
 
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 class QRViewExample extends StatefulWidget {
   final double lat;
   final double long;
-
-  const QRViewExample({super.key, required this.lat, required this.long});
+  final int num;
+  final bool lastClue;
+  const QRViewExample({super.key, required this.lat, required this.long, required this.num, required this.lastClue});
 
   @override
   State<StatefulWidget> createState() => _QRViewExampleState();
@@ -23,14 +27,14 @@ class _QRViewExampleState extends State<QRViewExample> {
   QRViewController? controller;
   bool scanned = false;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // _requestPermission();
-  }
+ @override
+  void dispose(){
+    super.dispose();
+  controller!.disposed;
 
-  Future<void> _requestPermission(double lat, double lon) async {
+  }
+ 
+  Future<void> _requestPermission(double lat, double lon, String code) async {
     LocationPermission permission = await Geolocator.requestPermission();
 
     if (permission == LocationPermission.denied ||
@@ -40,11 +44,11 @@ class _QRViewExampleState extends State<QRViewExample> {
       //   _locationStatus = 'Permission Denied. Cannot access location.';
       // });
     } else {
-      checkLocation(lat,lon);
+      checkLocation(lat,lon, code);
     }
   }
 
-  void checkLocation(double qrLat, double qrLot) async {
+  void checkLocation(double qrLat, double qrLot, String code) async {
     // Get the current position (latitude and longitude)
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
@@ -63,8 +67,18 @@ class _QRViewExampleState extends State<QRViewExample> {
     // Check if the distance is within 15 meters
     if (distance <= 100) {
       print('===>>>> You are within 15 meters of the target location!');
-       Navigator.push(context, MaterialPageRoute(builder: (_)=> ScanSuccess()));
-       
+      
+
+      if(widget.lastClue){
+            Provider.of<HomeProvider>(context, listen: false).unlockClue(code)..then((e){
+         Navigator.push(context, MaterialPageRoute(builder: (_)=> ClamPrice()));
+      });
+      }else{
+    Provider.of<HomeProvider>(context, listen: false).unlockClue(code)..then((e){
+         Navigator.push(context, MaterialPageRoute(builder: (_)=> ScanSuccess(num : widget.num)));
+      });
+      }
+
       // setState(() {
       //   _locationStatus = 'You are within 15 meters of the target location!';
       // });
@@ -96,11 +110,7 @@ class _QRViewExampleState extends State<QRViewExample> {
     return distance;
   }
 
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
+
 
   void _onQRViewCreated(QRViewController ctrl) {
     this.controller = ctrl;
@@ -129,7 +139,7 @@ void _extractData(String data) {
       print(  "=====///"+latString);
       print(  "=====///"+lonString);
 
-      _requestPermission(double.parse(latString), double.parse(lonString));
+      _requestPermission(double.parse(latString), double.parse(lonString), extractedQRCode);
       // setState(() {
       //   qrCode = extractedQRCode; // Store the QR code value
       //   latitude = double.tryParse(latString); // Store latitude
