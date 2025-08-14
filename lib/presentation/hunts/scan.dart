@@ -87,7 +87,7 @@ class Scan extends StatelessWidget {
                     ),
                     vPad20,
                     Text(
-                      "Scan me for the next clue \nTo RS 10,000",
+                      "Scan me for the next clue \nTo RS ${provider.selectedForDeatils!.prizeAmount.toString()}",
                       style: customTextStyleAuth(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,

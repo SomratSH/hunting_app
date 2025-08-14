@@ -369,6 +369,7 @@ class HomeScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: InkWell(
                                         onTap: () {
+                                          homeProvider.updateHunts(homeProvider.filteredHuntsList.results![index]);
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
